@@ -13,7 +13,7 @@ This packages provides a simple and non-invasive matching set of Java and C
 interfaces that leverage Java's JNI and the memory management available to C++
 hiding the native bootstrapping process and memory management of native code. 
 This allows for the inclusion of native code in a way that requires few changes 
-to native code and that is a natural fit to an information-flow-based workflow 
+and that is a natural fit to an information-flow-based workflow 
 system that is purely functional.
 
 
