@@ -10,8 +10,9 @@ native-backed Java objects in an [Onyx Platform](http://onyxplatform.org) workfl
 Onyx Native builds on new features being added to [Onyx Java](http://github.com/onyx-platform/onyx-java) which supports using stateful Java objects in a workflow.
 
 This packages provides a simple and non-invasive matching set of Java and C 
-interfaces that leverage Java's JNI and the memory management available to C++
+interfaces that leverage Java's JNI and the memory management available to C++,
 hiding the native bootstrapping process and memory management of native code. 
+
 This allows for the inclusion of native code in a way that requires few changes 
 and that is a natural fit to an information-flow-based workflow 
 system that is purely functional.
