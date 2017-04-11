@@ -1,5 +1,4 @@
-# Onyx Native - Affordances for use of stateful Java objects that is backed
-#               by native code.
+# Onyx Native - Affordances for native code in Onyx workflows
 
 ## Contents
 
