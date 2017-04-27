@@ -19,7 +19,7 @@ and that is a natural fit to an information-flow-based workflow
 system that is purely functional.<br>
 <br>
 
-### (Expected initial publication May 2017, depends on ongoing work to upgrade [Onyx Java](https://github.com/RBerkheimer/onyx-java)
+### Expected initial publication May 2017, depends on ongoing work to upgrade [Onyx Java](https://github.com/RBerkheimer/onyx-java)
 
 
 
