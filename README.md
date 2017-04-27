@@ -7,7 +7,8 @@ native-backed Java objects in an [Onyx Platform](http://onyxplatform.org) workfl
 
 ## Architectural Approach
 
-Onyx Native builds on new features being added to [Onyx Java](http://github.com/onyx-platform/onyx-java) that provide support for the use of stateful Java instances in a workflow.<br>
+Onyx Native builds on new features being added to [Onyx Java](https://github.com/RBerkheimer/onyx-java) that 
+provide support for the use of stateful Java instances in a workflow.<br>
 <br>
 This packages provides a simple and non-invasive matching set of Java and C 
 interfaces that leverage Java's JNI and C++ to enable bootstrapping 
@@ -18,8 +19,7 @@ and that is a natural fit to an information-flow-based workflow
 system that is purely functional.<br>
 <br>
 
-### (Expected initial publication May 2017, depends on ongoing work to upgrade 
- [Onyx Java](https://github.com/RBerkheimer/onyx-java)
+### (Expected initial publication May 2017, depends on ongoing work to upgrade [Onyx Java](https://github.com/RBerkheimer/onyx-java)
 
 
 
