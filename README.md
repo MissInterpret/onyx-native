@@ -39,7 +39,7 @@ int batchTimeout = 50;
 BindUtils.addFn(catalog, batchSize, batchTimeout, fullyQualifiedName, ctrArgs);
 ```
 <br>
-Which loads a pure Java class derived from *OnyxFn*:<br>
+Which loads a pure Java class derived from *OnyxFn*<br>
 
 ```
 package onyxplatform.test;
@@ -62,11 +62,9 @@ public class PassFn extends OnyxFn {
 
 ### Using Native-Backed Instances
 
-Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv*. 
+Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv*. <br>
 <br>
 
-
-<br>
 
 
 
