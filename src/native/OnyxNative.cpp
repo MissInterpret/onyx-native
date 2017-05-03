@@ -3,7 +3,7 @@ using namespace std;
 
 #include <jni.h>
 #include "org_onyxplatform_api_java_instance_NativeOnyxFn.h"
-#include "NativeOnyxFn.h"
+#include "OnyxNative.h"
 
 // Class encapsulating the runtime back pointer, affordances
 // for accessing utilities that live in Java-land.
@@ -12,7 +12,7 @@ using namespace std;
 	// Constructor ----------------------------------
 	//
 
-NativeOnyxFn::NativeOnyxFn (JNIEnv *env, jclass clazz) {
+OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 	m_env = env;
 }
 
@@ -20,22 +20,22 @@ NativeOnyxFn::NativeOnyxFn (JNIEnv *env, jclass clazz) {
 	// Accessors for runtime -----------------------
 	// 
 
-JNIEnv* NativeOnyxFn::getEnv () {
+JNIEnv* OnyxNative::getEnv () {
 	return m_env;
 }
 
-jclass NativeOnyxFn::getClass() {
+jclass OnyxNative::getClass() {
 	// TODO: Get a class instance from the custom class loader
 	return NULL;
 }
 
-jobject NativeOnyxFn::getInitArgs() {
+jobject OnyxNative::getInitArgs() {
 	// TODO: Pull the IPersistentMap jobject from the runtime
 	//       
 	return NULL;
 }
 
-jmethod NativeOnyxFn::getMethod(std::string clazz, std::string method) {
+jmethod OnyxNative::getMethod(std::string clazz, std::string method) {
 	// TODO: Use the runtime to generate a handle to an instance method
 	return NULL;
 }
@@ -49,21 +49,21 @@ jmethod NativeOnyxFn::getMethod(std::string clazz, std::string method) {
 	// 
 
 
-jobject NativeOnyxFn::init (jobject mapObj) {
+jobject OnyxNative::init (jobject mapObj) {
 	// Assoc in a success value
 	return mapObj;
 }
 
 /*
- * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
+ * Class:     org_onyxplatform_api_java_instance_OnyxNative
  * Method:    initNative
  * Signature: (Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;
  */
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
   (JNIEnv *env, jclass clazz, jobject mapObj) 
 {
-	g_onyxFn = new NativeOnyxFn(env, clazz);
-	return g_onyxFn.init(mapObj);
+	g_onyx = new OnyxNative(env, clazz);
+	return g_onyx.init(mapObj);
 }
 
 
@@ -71,8 +71,8 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 //
 
 JNIEXPORT JNIEnv* getJNIEnv() {
-	if (g_onxyFn != NULL) {
-		return g_onyxFn->getEnv();
+	if (g_onxy != NULL) {
+		return g_onyx->getEnv();
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -80,8 +80,8 @@ JNIEXPORT JNIEnv* getJNIEnv() {
 }
 
 JNIEXPORT jclass getCurrentClass() {
-	if (g_onxyFn != NULL) {
-		return g_onyxFn->getClass();
+	if (g_onxy != NULL) {
+		return g_onyx->getClass();
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -89,8 +89,8 @@ JNIEXPORT jclass getCurrentClass() {
 }
 
 JNIEXPORT jobject getInitArgs() {
-	if (g_onxyFn != NULL) {
-		return g_onyxFn->getArgs();
+	if (g_onxy != NULL) {
+		return g_onyx->getArgs();
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -98,8 +98,8 @@ JNIEXPORT jobject getInitArgs() {
 }
 
 JNIEXPORT jmethod getMethod(std::string clazz, std::string method) {
-	if (g_onxyFn != NULL) {
-		return g_onyxFn->getMethod(clazz, method);
+	if (g_onxy != NULL) {
+		return g_onyx->getMethod(clazz, method);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;

@@ -17,10 +17,10 @@ using namespace std;
 //     for c-decl
 //     
 
-class NativeOnyxFn {
+class OnyxNative {
 
 	public: 
-		NativeOnyxFn(JNIEnv *env, jclass clazz);
+		OnyxNative(JNIEnv *env, jclass clazz);
 
 		jobject init(jobject mapObj);
 
@@ -36,7 +36,7 @@ class NativeOnyxFn {
 
 extern "C" {
 
-NativeOnyxFn *g_onxyFn;
+OnyxNative *g_onyx;
 
 // Runtime accessors 
 //
