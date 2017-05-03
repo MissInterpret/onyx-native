@@ -12,7 +12,7 @@ class NativeOnyxFn {
 
 		JNIEnv* getEnv();
 		jclass  getClass();
-		jobject getInitArgs();
+		jobject getArgs();
 
 
 	private: 
@@ -25,12 +25,14 @@ extern "C" {
 
 NativeOnyxFn *g_onxyFn;
 
-// TODO: Add decl for all map utilities and 
-//       other callback helpers so they 
-//       can be cleanly called by C
-//       
+// Runtime accessors 
+//
 
+JNIEXPORT JNIEnv* getJNIEnv();
+JNIEXPORT jclass  getCurrentClass();
+JNIEXPORT jobject getInitArgs();
 
+// Utilities 
 
 
 

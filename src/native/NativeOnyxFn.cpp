@@ -64,6 +64,32 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 // C-Externed entry points for access to runtime and utils --------
 //
 
+JNIEXPORT JNIEnv* getJNIEnv() {
+	if (g_onxyFn != NULL) {
+		return g_onyxFn->getEnv();
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jclass getCurrentClass() {
+	if (g_onxyFn != NULL) {
+		return g_onyxFn->getClass();
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject getInitArgs() {
+	if (g_onxyFn != NULL) {
+		return g_onyxFn->getArgs();
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
 
 
 
