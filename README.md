@@ -74,7 +74,8 @@ Onyx-native parallels onyx-java's approach offering additional native affordance
 
 #### Java
 
-Onyx-native follows the same approach that onyx-java does (shown above) with additions to specific the library along with initialization arguments. These are used along with native-specific versions of the core API (*NAPI*) and *OnyxEnv* (*NativeOnyxEnv*) to load and bootstrap your native-backed instance at runtime.<br>
+Onyx-native follows the same approach that onyx-java does (shown above) with additions to specify the library along with initialization arguments. These are used along with native-specific versions of the core API (*NAPI*) and *OnyxEnv* (*NativeOnyxEnv*) to load and bootstrap your native-backed instance at runtime.<br>
+
 <br>
 As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 <br>
