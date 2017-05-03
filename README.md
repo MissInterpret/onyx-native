@@ -71,16 +71,17 @@ The following sections demonstrate use of the native-specific features along wit
 
 Onyx-native parallels onyx-java's approach offering additional native affordances to manage the underlying native resources provided via a dyanmic library.<br>
 <br>
+##### Java
 
+Usage and impl java class
 
+##### Native
 
-#### NativeOnyxFn 
+Create a nifty native library to use
 
+## NativeOnyxFn and interop Utilities
 
-#### Native Interop
-
-
-
+All the deets on affordances
 
 
 ### Expected initial publication Summer 2017, depends on ongoing work to upgrade [onyx-java](https://github.com/RBerkheimer/onyx-java)
