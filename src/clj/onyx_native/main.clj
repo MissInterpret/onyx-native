@@ -1,7 +1,7 @@
-(ns onyx-java.main
+(ns onyx-native.main
   (:gen-class) 
-  (:require [onyx-java.instance.bind :as ib]
-            [onyx-java.instance.catalog :as ic])
+  (:require [onyx-native.instance.bind :as ib]
+            [onyx-native.instance.catalog :as ic])
   (:import [org.onyxplatform.api.java 
             API 
             Catalog 
@@ -23,14 +23,18 @@
             Triggers
             Window
             Windows
-            Workflow]
-           [org.onyxplatform.api.java.instance 
-            Loader 
-            BindUtils 
-            OnyxFn]
+            Workflow
+            NAPI
+            NativeOnyxEnv]
            [org.onyxplatform.api.java.utils 
             AsyncCatalog 
             AsyncLifecycles 
             MapFns 
-            VectorFns]))
+            VectorFns]  
+           [org.onyxplatform.api.java.instance 
+            Loader 
+            BindUtils 
+            OnyxFn
+            NativeBindUtils 
+            NativeOnyxFn ]))
 

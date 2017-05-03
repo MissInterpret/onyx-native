@@ -64,11 +64,26 @@ public class PassFn extends OnyxFn {
 
 Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv*. <br>
 <br>
+The following sections demonstrate use of the native-specific features along with the interfaces and utilities at each level of abstraction.<br>
+<br>
+
+#### Basic Usage
+
+Onyx-native parallels onyx-java's approach offering additional native affordances to manage the underlying native resources provided via a dyanmic library.<br>
+<br>
+
+
+
+#### NativeOnyxFn 
+
+
+#### Native Interop
 
 
 
 
-### Expected initial publication May 2017, depends on ongoing work to upgrade [onyx-java](https://github.com/RBerkheimer/onyx-java)
+
+### Expected initial publication Summer 2017, depends on ongoing work to upgrade [onyx-java](https://github.com/RBerkheimer/onyx-java)
 
 
 

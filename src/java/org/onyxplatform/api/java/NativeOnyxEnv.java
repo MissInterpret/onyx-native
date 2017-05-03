@@ -14,8 +14,7 @@ public class NativeOnyxEnv extends OnyxEnv {
 	//
  	public IPersistentMap submitJob(Job job) {
 		try {
-			//return NAPI.submitJob(peerConfig, job);
-			return null;
+			return NAPI.submitJob(peerConfig, job);
 		}
 		catch (Exception e) {
 			System.out.println("Submit job failed. Exception follows:");
