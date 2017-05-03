@@ -81,17 +81,17 @@ Onyx-native follows the same approach that onyx-java does (shown above) with add
 Create a nifty native library to use!<br>
 <br>
 
-## Interop Utilities
+### Interop Utilities
 
 All the deets on affordances<br>
 <br>
 
-### VM 
+#### VM 
 
 You can get at stuff in the VM runtime! <br>
 <br>
 
-### Map 
+#### Map 
 
 Map functions let you manipulate IPersistentMaps! <br>
 <br>
