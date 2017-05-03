@@ -69,11 +69,11 @@ The following sections demonstrate use of the native-specific features along wit
 
 #### Basic Usage
 
-Onyx-native parallels onyx-java's approach offering additional native affordances to manage the underlying native resources provided via a dyanmic library.<br>
+Onyx-native parallels onyx-java's approach offering additional native affordances to manage the accessing runtime VM resources along with utilities (Both C++ and C) to directly manipulate Clojure maps in JNI functions.<br>
 <br>
 ##### Java
 
-Usage and impl java class
+Onyx-native follows the same approach that onyx-java does (shown above) with additions to . <br>
 
 ##### Native
 
@@ -81,8 +81,24 @@ Create a nifty native library to use
 
 ## NativeOnyxFn and interop Utilities
 
-All the deets on affordances
+All the deets on affordances<br>
+<br>
 
+### VM 
+
+You can get at stuff in the VM runtime! <br>
+<br>
+
+### Map 
+
+Map functions let you manipulate IPersistentMaps! <br>
+<br>
+
+
+### Memory Management Notes
+
+Outline how library unloading works and its implications for memory held by native libraries.<br>
+<br>
 
 ### Expected initial publication Summer 2017, depends on ongoing work to upgrade [onyx-java](https://github.com/RBerkheimer/onyx-java)
 
