@@ -71,13 +71,15 @@ The following sections demonstrate use of the native-specific features along wit
 
 Onyx-native parallels onyx-java's approach offering additional native affordances to manage the accessing runtime VM resources along with utilities (Both C++ and C) to directly manipulate Clojure maps in JNI functions.<br>
 <br>
+
 ##### Java
 
 Onyx-native follows the same approach that onyx-java does (shown above) with additions to . <br>
 
 ##### Native
 
-Create a nifty native library to use
+Create a nifty native library to use!<br>
+<br>
 
 ## NativeOnyxFn and interop Utilities
 
