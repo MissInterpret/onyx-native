@@ -74,18 +74,24 @@ Onyx-native parallels onyx-java's approach offering additional native affordance
 
 #### Java
 
-Onyx-native follows the same approach that onyx-java does (shown above) with additions to specify the library along with initialization arguments. These are used along with native-specific versions of the core API (*NAPI*) and *OnyxEnv* (*NativeOnyxEnv*) to load and bootstrap your native-backed instance at runtime.<br>
+Onyx-native follows the same approach that onyx-java does (shown above) with additions to 
+specife the library along with initialization arguments. These are used along with native-specific 
+versions of the core API (*NAPI*) and *OnyxEnv* (*NativeOnyxEnv*) to load and bootstrap your 
+native-backed instance at runtime.<br>
 
 <br>
 As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 <br>
 
 <br>
-You then provide a concrete subclass of *NativeOnyxFn*. *NativeOnyxFn* provides an addtional static function which bootstraps the backing library and intializes native resources:<br>
+You then provide a concrete subclass of *NativeOnyxFn*. *NativeOnyxFn* provides an addtional static 
+function which bootstraps the backing library and intializes native resources:<br>
 <br>
 
 <br>
-Note that *NativeOnyxFn* only provides the means for easy use of native calls and an assurence of runtime consistency. Your concrete subclass is not forced to use any native methods when over-riding *consumeSegment*.
+Note that *NativeOnyxFn* only provides the means for easy use of native calls and an 
+assurence of runtime consistency. Your concrete subclass is not forced to use any native methods 
+when over-riding *consumeSegment*.
 <br>
 
 #### Native
