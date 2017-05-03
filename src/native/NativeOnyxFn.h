@@ -3,6 +3,20 @@ using namespace std;
 
 #include <jni.h>
 
+// Open Questions
+//
+//   o What is the lifetime scope of things brought 
+//     back from a JNI method request?
+//
+//   	- Double-check that the scope of JNI calls is 
+//   	  until a function returns back to the JVM
+//   	  (i.e. intermediate VM objs live until 
+//   	        exiting the enclosing scope)
+//
+//   o Double-check that JNIEXPORT is the right preprocessing directive 
+//     for c-decl
+//     
+
 class NativeOnyxFn {
 
 	public: 
@@ -13,12 +27,11 @@ class NativeOnyxFn {
 		JNIEnv* getEnv();
 		jclass  getClass();
 		jobject getArgs();
+		jmethod getMethod(std::string clazz, std::string method);
 
 
 	private: 
 		JNIEnv* m_env;
-		jclass  m_class;
-		jobject m_initObj;
 };
 
 extern "C" {
@@ -31,10 +44,9 @@ NativeOnyxFn *g_onxyFn;
 JNIEXPORT JNIEnv* getJNIEnv();
 JNIEXPORT jclass  getCurrentClass();
 JNIEXPORT jobject getInitArgs();
+JNIEXPORT jmethod getMethod(std::string clazz, std::string method);
 
 // Utilities 
-
-
 
 }
 

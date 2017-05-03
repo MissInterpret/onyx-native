@@ -14,7 +14,6 @@ using namespace std;
 
 NativeOnyxFn::NativeOnyxFn (JNIEnv *env, jclass clazz) {
 	m_env = env;
-	m_class = clazz;
 }
 
 
@@ -26,13 +25,20 @@ JNIEnv* NativeOnyxFn::getEnv () {
 }
 
 jclass NativeOnyxFn::getClass() {
-	return m_class;
+	// TODO: Get a class instance from the custom class loader
+	return NULL;
 }
 
 jobject NativeOnyxFn::getInitArgs() {
-	return m_initObj;
+	// TODO: Pull the IPersistentMap jobject from the runtime
+	//       
+	return NULL;
 }
 
+jmethod NativeOnyxFn::getMethod(std::string clazz, std::string method) {
+	// TODO: Use the runtime to generate a handle to an instance method
+	return NULL;
+}
 
 	// IPersistentMap utilities ---------------------
 	//
@@ -91,5 +97,12 @@ JNIEXPORT jobject getInitArgs() {
 	}
 }
 
-
+JNIEXPORT jmethod getMethod(std::string clazz, std::string method) {
+	if (g_onxyFn != NULL) {
+		return g_onyxFn->getMethod(clazz, method);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
 
