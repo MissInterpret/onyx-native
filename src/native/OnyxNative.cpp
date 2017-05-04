@@ -71,7 +71,39 @@ jobject OnyxNative::init (jobject mapObj) {
 // IPersistentMap utilities -------------------------------------------
 //
 
+jobject OnyxNative::getObj(jobject ipmap, std::string key) {
+	return NULL;
+}
 
+int OnyxNative::getInt(jobject ipmap, std::string key) {
+	jobject v = getObj(ipmap, key);
+	int i = 1;
+	return i;
+}
+
+float OnyxNative::getFloat(jobject ipmap, std::string key) {
+	jobject v = getObj(ipmap, key);
+	float f = 1.0f;
+	return f;
+}
+
+double OnyxNative::getDouble(jobject ipmap, std::string key) {
+	jobject v = getObj(ipmap, key);
+	double d = 2.0;
+	return d;
+}
+
+bool OnyxNative::getBool(jobject ipmap, std::string key) {
+	jobject v = getObj(ipmap, key);
+	bool b = false;
+	return b;
+}
+
+std::string OnyxNative::getStr(jobject ipmap, std::string key){
+	jobject v = getObj(ipmap, key);
+	std::string str = "";
+	return str;
+}
 
 
 
@@ -94,7 +126,7 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 // C-Externed entry points for access to runtime and utils --------
 //
 
-JNIEXPORT JNIEnv* getJNIEnv() {
+JNIEXPORT JNIEnv* onyx_getJNIEnv() {
 	if (g_onyx != NULL) {
 		return g_onyx->getEnv();
 	} else {
@@ -103,7 +135,7 @@ JNIEXPORT JNIEnv* getJNIEnv() {
 	}
 }
 
-JNIEXPORT jclass getCurrentClass() {
+JNIEXPORT jclass onyx_getCurrentClass() {
 	if (g_onyx != NULL) {
 		return g_onyx->getCurrentClass();
 	} else {
@@ -112,7 +144,7 @@ JNIEXPORT jclass getCurrentClass() {
 	}
 }
 
-JNIEXPORT jclass getClass(const char* pFqClassName) {
+JNIEXPORT jclass onyx_getClass(const char* pFqClassName) {
 	if (g_onyx != NULL) {
 		std::string className = pFqClassName;
 		return g_onyx->getClass(className);
@@ -125,7 +157,7 @@ JNIEXPORT jclass getClass(const char* pFqClassName) {
 /**
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
-JNIEXPORT jmethodID getMethod(const char* clazz, const char* name, const char* decl) {
+JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const char* decl) {
 	if (g_onyx != NULL) {
 		std::string cl = clazz;
 		std::string n = name;
@@ -138,3 +170,63 @@ JNIEXPORT jmethodID getMethod(const char* clazz, const char* name, const char* d
 }
 
 
+JNIEXPORT jobject onyx_getObj(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getObj(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
+
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getInt(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return -1;
+	}
+}
+JNIEXPORT float onyx_getFloat(jobject ipmap, const char* key) {
+
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getFloat(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return -1.0f;
+	}
+}
+
+JNIEXPORT double onyx_getDouble(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getDouble(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return -1;
+	}
+}
+
+JNIEXPORT bool 	onyx_getBool(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getBool(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return false;
+	}
+}
+
+JNIEXPORT const char* onyx_getStr(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return (g_onyx->getStr(ipmap, k)).c_str();
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
