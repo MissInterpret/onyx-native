@@ -27,7 +27,7 @@ class OnyxNative {
 		JNIEnv* getEnv();
 		jclass  getClass();
 		jobject getArgs();
-		jmethod getMethod(std::string clazz, std::string method);
+		jmethodID getMethod(std::string clazz, std::string method);
 
 
 	private: 
@@ -44,7 +44,7 @@ OnyxNative *g_onyx;
 JNIEXPORT JNIEnv* getJNIEnv();
 JNIEXPORT jclass  getCurrentClass();
 JNIEXPORT jobject getInitArgs();
-JNIEXPORT jmethod getMethod(std::string clazz, std::string method);
+JNIEXPORT jmethodID getMethod(std::string clazz, std::string method);
 
 // Utilities 
 

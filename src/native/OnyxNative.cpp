@@ -29,13 +29,13 @@ jclass OnyxNative::getClass() {
 	return NULL;
 }
 
-jobject OnyxNative::getInitArgs() {
+jobject OnyxNative::getArgs() {
 	// TODO: Pull the IPersistentMap jobject from the runtime
 	//       
 	return NULL;
 }
 
-jmethod OnyxNative::getMethod(std::string clazz, std::string method) {
+jmethodID OnyxNative::getMethod(std::string clazz, std::string method) {
 	// TODO: Use the runtime to generate a handle to an instance method
 	return NULL;
 }
@@ -63,7 +63,7 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
   (JNIEnv *env, jclass clazz, jobject mapObj) 
 {
 	g_onyx = new OnyxNative(env, clazz);
-	return g_onyx.init(mapObj);
+	return g_onyx->init(mapObj);
 }
 
 
@@ -71,7 +71,7 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 //
 
 JNIEXPORT JNIEnv* getJNIEnv() {
-	if (g_onxy != NULL) {
+	if (g_onyx != NULL) {
 		return g_onyx->getEnv();
 	} else {
 		// NOTE: This is in case of severe lib load failure
@@ -80,7 +80,7 @@ JNIEXPORT JNIEnv* getJNIEnv() {
 }
 
 JNIEXPORT jclass getCurrentClass() {
-	if (g_onxy != NULL) {
+	if (g_onyx != NULL) {
 		return g_onyx->getClass();
 	} else {
 		// NOTE: This is in case of severe lib load failure
@@ -89,7 +89,7 @@ JNIEXPORT jclass getCurrentClass() {
 }
 
 JNIEXPORT jobject getInitArgs() {
-	if (g_onxy != NULL) {
+	if (g_onyx != NULL) {
 		return g_onyx->getArgs();
 	} else {
 		// NOTE: This is in case of severe lib load failure
@@ -97,8 +97,8 @@ JNIEXPORT jobject getInitArgs() {
 	}
 }
 
-JNIEXPORT jmethod getMethod(std::string clazz, std::string method) {
-	if (g_onxy != NULL) {
+JNIEXPORT jmethodID getMethod(std::string clazz, std::string method) {
+	if (g_onyx != NULL) {
 		return g_onyx->getMethod(clazz, method);
 	} else {
 		// NOTE: This is in case of severe lib load failure
