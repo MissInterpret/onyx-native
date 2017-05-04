@@ -5,12 +5,12 @@ using namespace std;
 #include "org_onyxplatform_api_java_instance_NativeOnyxFn.h"
 #include "OnyxNative.h"
 
-// Class encapsulating the runtime back pointer, affordances
-// for accessing utilities that live in Java-land.
-//
+/** Class encapsulating the runtime back pointer, affordances
+ * for accessing utilities that live in Java-land.
+ */
 
-	// Constructor ----------------------------------
-	//
+// Cnstr/Destr ----------------------------------
+//
 
 OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 
@@ -21,8 +21,6 @@ OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 	// caching classloader
 	//
 	m_instClass = (jclass) env->NewGlobalRef(clazz);
-
-	// TODO: What is the prototype to return a class again?
 	m_findClassId = env->GetStaticMethodID(m_instClass, "findClass", "(Ljava/lang/Class;)Ljava/lang/String;");
 }
 
@@ -30,8 +28,9 @@ OnyxNative::~OnyxNative () {
 	m_env->DeleteGlobalRef(m_instClass);
 }
 
-	// Accessors for runtime -----------------------
-	// 
+
+// Accessors for runtime -----------------------
+// 
 
 JNIEnv* OnyxNative::getEnv () {
 	return m_env;
@@ -52,34 +51,32 @@ jclass OnyxNative::getClass(std::string className) {
 	return (jclass) m_env->CallStaticObjectMethod(m_instClass, m_findClassId, className.c_str());
 }
 
-jobject OnyxNative::getArgs() {
-	// TODO: Pull the IPersistentMap jobject from the runtime
-	//       
-	return NULL;
-}
-
 /**
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
 jmethodID OnyxNative::getMethod(std::string clazz, std::string name, std::string decl) {
-
-	// TODO: Use the runtime to generate a handle to an instance method
-	return NULL;
+	jclass c = getClass(clazz);
+	return m_env->GetMethodID(c, name.c_str(), decl.c_str());
 }
 
-	// IPersistentMap utilities ---------------------
-	//
-
-
-
-	// JNI Entry point, Bootstrapping ---------------
-	// 
-
+// JNI Entry point, Bootstrapping -------------------------------------
+// 
 
 jobject OnyxNative::init (jobject mapObj) {
 	// Assoc in a success value
 	return mapObj;
 }
+
+
+// IPersistentMap utilities -------------------------------------------
+//
+
+
+
+
+
+// JNI Entry points for NativeOnyxFn --------------------------------
+//
 
 /*
  * Class:     org_onyxplatform_api_java_instance_OnyxNative
@@ -106,16 +103,6 @@ JNIEXPORT JNIEnv* getJNIEnv() {
 	}
 }
 
-JNIEXPORT jclass getClass(const char* pFqClassName) {
-	if (g_onyx != NULL) {
-		std::string className = pFqClassName;
-		return g_onyx->getClass(className);
-	} else {
-		// NOTE: This is in case of severe lib load failure
-		return NULL;
-	}
-}
-
 JNIEXPORT jclass getCurrentClass() {
 	if (g_onyx != NULL) {
 		return g_onyx->getCurrentClass();
@@ -125,9 +112,10 @@ JNIEXPORT jclass getCurrentClass() {
 	}
 }
 
-JNIEXPORT jobject getInitArgs() {
+JNIEXPORT jclass getClass(const char* pFqClassName) {
 	if (g_onyx != NULL) {
-		return g_onyx->getArgs();
+		std::string className = pFqClassName;
+		return g_onyx->getClass(className);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -148,4 +136,5 @@ JNIEXPORT jmethodID getMethod(const char* clazz, const char* name, const char* d
 		return NULL;
 	}
 }
+
 

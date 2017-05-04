@@ -14,7 +14,6 @@ class OnyxNative {
 		JNIEnv* getEnv();
 		jclass  getCurrentClass();
 		jclass  getClass(std::string className);
-		jobject getArgs();
 
 		/**
  		* NOTE: jmethodID's have full runtime scope and can be re-used.
@@ -38,7 +37,6 @@ OnyxNative *g_onyx;
 JNIEXPORT JNIEnv* getJNIEnv();
 JNIEXPORT jclass  getClass(const char* pFqClassName);
 JNIEXPORT jclass  getCurrentClass();
-JNIEXPORT jobject getInitArgs();
 
 /**
 * NOTE: jmethodID's have full runtime scope and can be re-used.
