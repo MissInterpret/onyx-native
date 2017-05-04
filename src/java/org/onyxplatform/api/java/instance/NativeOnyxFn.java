@@ -10,6 +10,7 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	protected static IPersistentMap initArgs;
 
 	protected static native IPersistentMap initNative(IPersistentMap m);
+	protected static native void releaseNative();
 
 	public static IPersistentMap loadNativeResources(IPersistentMap m) {
 		if (!libLoaded) {
@@ -19,6 +20,10 @@ public abstract class NativeOnyxFn extends OnyxFn {
 			libLoaded = true;
 		}
 		return initArgs;
+	}
+
+	public static void releaseNativeResources(IPersistentMap m) {
+		releaseNative();
 	}
 
 	public NativeOnyxFn(IPersistentMap m) {

@@ -13,9 +13,22 @@ using namespace std;
 	//
 
 OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
+
 	m_env = env;
+
+	// Hold on to the class as a global
+	// reference for use with class-specific
+	// caching classloader
+	//
+	m_instClass = (jclass) env->NewGlobalRef(clazz);
+
+	// TODO: What is the prototype to return a class again?
+	m_findClassId = env->GetStaticMethodID(m_instClass, "findClass", "(Ljava/lang/Class;)Ljava/lang/String;");
 }
 
+OnyxNative::~OnyxNative () {
+	m_env->DeleteGlobalRef(m_instClass);
+}
 
 	// Accessors for runtime -----------------------
 	// 
@@ -24,9 +37,19 @@ JNIEnv* OnyxNative::getEnv () {
 	return m_env;
 }
 
-jclass OnyxNative::getClass() {
-	// TODO: Get a class instance from the custom class loader
-	return NULL;
+jclass OnyxNative::getCurrentClass() {
+	return m_instClass;
+}
+
+jclass OnyxNative::getClass(std::string className) {
+
+	// Use our instance's classloader affordances.
+	// This ensures that whatever classes are 
+	// loaded as dependencies during runtime 
+	// can be unloaded once the backing instance
+	// is released.
+
+	return (jclass) m_env->CallStaticObjectMethod(m_instClass, m_findClassId, className.c_str());
 }
 
 jobject OnyxNative::getArgs() {
@@ -35,7 +58,11 @@ jobject OnyxNative::getArgs() {
 	return NULL;
 }
 
-jmethodID OnyxNative::getMethod(std::string clazz, std::string method) {
+/**
+ * NOTE: jmethodID's have full runtime scope and can be re-used.
+ */
+jmethodID OnyxNative::getMethod(std::string clazz, std::string name, std::string decl) {
+
 	// TODO: Use the runtime to generate a handle to an instance method
 	return NULL;
 }
@@ -79,9 +106,19 @@ JNIEXPORT JNIEnv* getJNIEnv() {
 	}
 }
 
+JNIEXPORT jclass getClass(const char* pFqClassName) {
+	if (g_onyx != NULL) {
+		std::string className = pFqClassName;
+		return g_onyx->getClass(className);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
 JNIEXPORT jclass getCurrentClass() {
 	if (g_onyx != NULL) {
-		return g_onyx->getClass();
+		return g_onyx->getCurrentClass();
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -97,9 +134,15 @@ JNIEXPORT jobject getInitArgs() {
 	}
 }
 
-JNIEXPORT jmethodID getMethod(std::string clazz, std::string method) {
+/**
+ * NOTE: jmethodID's have full runtime scope and can be re-used.
+ */
+JNIEXPORT jmethodID getMethod(const char* clazz, const char* name, const char* decl) {
 	if (g_onyx != NULL) {
-		return g_onyx->getMethod(clazz, method);
+		std::string cl = clazz;
+		std::string n = name;
+		std::string d = decl;
+		return g_onyx->getMethod(cl, n, d);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
