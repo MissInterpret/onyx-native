@@ -104,17 +104,14 @@ Create a nifty native library to use!<br>
 The *OnyxNative* support class provides both C and C++ accessors which make Clojure IPersistentMap
 manipulation straightforward. It also provides access to a global back-pointer to the VM runtime,
 the jclass object for the peer class as well as functions that encapsulate common setup for
-JNI objects like jmethodID's.<br>
-<br>
+JNI objects like jmethodID's.
 
 #### VM 
 Using JNI functions require some combination of paramters that include a jclass, and often a jmethodID. 
 Obtaining them from fully-qualified class name requires stereotyped boilerplate. These functions wrap 
-this functionality:<br>
-<br>
+this functionality:
 
 ##### C++
-<br>
 ```
 JNIEnv* getEnv();
 jclass  getCurrentClass();
@@ -122,9 +119,7 @@ jclass  getClass(std::string className);
 jmethodID getMethod(std::string clazz, std::string name, std::string decl);
 jstring toJavaString(std::string s);
 ```
-<br>
 ##### C
-<br>
 ```
 JNIEXPORT JNIEnv* onyx_getJNIEnv();
 JNIEXPORT jclass  onyx_getClass(const char* pFqClassName);
