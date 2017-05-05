@@ -21,7 +21,7 @@ OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 	// caching classloader
 	//
 	m_instClass = (jclass) env->NewGlobalRef(clazz);
-	m_findClassId = env->GetStaticMethodID(m_instClass, "findClass", "(Ljava/lang/Class;)Ljava/lang/String;");
+	m_findClassId = env->GetStaticMethodID(m_instClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
 }
 
 OnyxNative::~OnyxNative () {
@@ -47,7 +47,7 @@ jclass OnyxNative::getClass(std::string className) {
 	// loaded as dependencies during runtime 
 	// can be unloaded once the backing instance
 	// is released.
-
+	// 
 	return (jclass) m_env->CallStaticObjectMethod(m_instClass, m_findClassId, className.c_str());
 }
 
@@ -59,11 +59,27 @@ jmethodID OnyxNative::getMethod(std::string clazz, std::string name, std::string
 	return m_env->GetMethodID(c, name.c_str(), decl.c_str());
 }
 
+jstring OnyxNative::toJavaString(std::string s) {
+	return 	m_env->NewStringUTF(s.c_str());
+}
+
+
 // JNI Entry point, Bootstrapping -------------------------------------
 // 
 
 jobject OnyxNative::init (jobject mapObj) {
-	// Assoc in a success value
+
+	m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
+
+	m_mapMergeId = getMethod("org/onyxplatform/api/java/utils/MapFns", "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;");
+
+	m_mapGetId = getMethod("org/onyxplatform/api/java/utils/MapFns", "get", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap)Lclojure/lang/IPersistentMap;");
+
+	m_mapAssocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "assoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;");
+
+	m_mapDissocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "dissoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;");
+
+	// Assoc in a success value?
 	return mapObj;
 }
 
@@ -72,11 +88,13 @@ jobject OnyxNative::init (jobject mapObj) {
 //
 
 jobject OnyxNative::emptyMap() {
-	return NULL;
+	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
+	return m_env->CallStaticObjectMethod(mapClass, m_mapEmptyId);
 }
 
 jobject OnyxNative::merge(jobject a, jobject b) {
-	return NULL;
+	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
+	return m_env->CallStaticObjectMethod(mapClass, m_mapMergeId, a, b);
 }
 
 
@@ -84,70 +102,131 @@ jobject OnyxNative::merge(jobject a, jobject b) {
 	// 	
 	
 jobject OnyxNative::getObj(jobject ipmap, std::string key) {
-	return NULL;
+	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
+	jstring keyStr = toJavaString(key);
+	return m_env->CallStaticObjectMethod(mapClass, m_mapGetId, ipmap, keyStr); 
 }
 
 int OnyxNative::getInt(jobject ipmap, std::string key) {
 	jobject v = getObj(ipmap, key);
-	int i = 1;
-	return i;
+	jclass clazz = getClass("java/lang/Integer");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		jmethodID mid   = m_env->GetMethodID(clazz, "intValue", "()I");
+		return (int) m_env->CallIntMethod(v, mid);
+	}
+	else {
+		return -1;
+	}
+}
+
+long OnyxNative::getLong(jobject ipmap, std::string key) {
+	jobject v = getObj(ipmap, key);
+	jclass clazz = getClass("java/lang/Long");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		jmethodID mid   = m_env->GetMethodID(clazz, "longValue", "()J");
+		return (long) m_env->CallLongMethod(v, mid);
+	}
+	else {
+		return -1;
+	}
 }
 
 float OnyxNative::getFloat(jobject ipmap, std::string key) {
 	jobject v = getObj(ipmap, key);
-	float f = 1.0f;
-	return f;
+	jclass clazz = getClass("java/lang/Float");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		jmethodID mid   = m_env->GetMethodID(clazz, "floatValue", "()F");
+		return (float) m_env->CallFloatMethod(v, mid);
+	}
+	else {
+		return -1.0f;
+	}
 }
 
 double OnyxNative::getDouble(jobject ipmap, std::string key) {
 	jobject v = getObj(ipmap, key);
+	jclass clazz = getClass("java/lang/Double");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		jmethodID mid   = m_env->GetMethodID(clazz, "doubleValue", "()D");
+		return (float) m_env->CallDoubleMethod(v, mid);
+	}
+	else {
+		return -1.0f;
+	}
 	double d = 2.0;
 	return d;
 }
 
 bool OnyxNative::getBool(jobject ipmap, std::string key) {
 	jobject v = getObj(ipmap, key);
-	bool b = false;
-	return b;
+	jclass clazz = getClass("java/lang/Boolean");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		jmethodID mid   = m_env->GetMethodID(clazz, "booleanValue", "()Z");
+		return (bool) m_env->CallBooleanMethod(v, mid);
+	}
+	else {
+		return false;
+	}
 }
 
 std::string OnyxNative::getStr(jobject ipmap, std::string key){
 	jobject v = getObj(ipmap, key);
-	std::string str = "";
-	return str;
+	jclass clazz = getClass("java/lang/String");
+	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
+	{
+		// Pull the UTF string
+		return "";
+	}
+	else {
+		return "ERROR";
+	}
 }
 
 
 	// Assoc ------------------------
 	//
 jobject OnyxNative::assocObj(jobject ipmap, std::string key, jobject value) {
-	return NULL;
+	jclass mapClass = getClass("org.onyxplatform.api.java.utils.MapFns");
+	jstring keyStr = toJavaString(key);
+	return m_env->CallStaticObjectMethod(mapClass, m_mapAssocId, ipmap, keyStr, value);
 }
 
 jobject OnyxNative::assocInt(jobject ipmap, std::string key, int value) {
+	// TODO: Create an Integer
 	return NULL;
 }
 
 jobject OnyxNative::assocFloat(jobject ipmap, std::string key, float value) {
+	// TODO: Create an Float
 	return NULL;
 }
 
 jobject OnyxNative::assocDouble(jobject ipmap, std::string key, double value) {
+	// TODO: Create an Double
 	return NULL;
 }
 
 jobject OnyxNative::assocBool(jobject ipmap, std::string key, bool value) {
+	// TODO: Create an Boolean
 	return NULL;
 }
 
 jobject OnyxNative::assocStr(jobject ipmap, std::string key, std::string value) {
+	// TODO: Create an String
 	return NULL;
 }
 
 	// Dissoc ------------------------
 	//
 jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
-	return NULL;
+	jclass mapClass = getClass("org.onyxplatform.api.java.utils.MapFns");
+	jstring keyStr = toJavaString(key);
+	return m_env->CallStaticObjectMethod(mapClass, m_mapDissocId, ipmap, keyStr);
 }
 
 
