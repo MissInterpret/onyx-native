@@ -71,6 +71,18 @@ jobject OnyxNative::init (jobject mapObj) {
 // IPersistentMap utilities -------------------------------------------
 //
 
+jobject OnyxNative::emptyMap() {
+	return NULL;
+}
+
+jobject OnyxNative::merge(jobject a, jobject b) {
+	return NULL;
+}
+
+
+	// Get -------------------------
+	// 	
+	
 jobject OnyxNative::getObj(jobject ipmap, std::string key) {
 	return NULL;
 }
@@ -106,6 +118,38 @@ std::string OnyxNative::getStr(jobject ipmap, std::string key){
 }
 
 
+	// Assoc ------------------------
+	//
+jobject OnyxNative::assocObj(jobject ipmap, std::string key, jobject value) {
+	return NULL;
+}
+
+jobject OnyxNative::assocInt(jobject ipmap, std::string key, int value) {
+	return NULL;
+}
+
+jobject OnyxNative::assocFloat(jobject ipmap, std::string key, float value) {
+	return NULL;
+}
+
+jobject OnyxNative::assocDouble(jobject ipmap, std::string key, double value) {
+	return NULL;
+}
+
+jobject OnyxNative::assocBool(jobject ipmap, std::string key, bool value) {
+	return NULL;
+}
+
+jobject OnyxNative::assocStr(jobject ipmap, std::string key, std::string value) {
+	return NULL;
+}
+
+	// Dissoc ------------------------
+	//
+jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
+	return NULL;
+}
+
 
 // JNI Entry points for NativeOnyxFn --------------------------------
 //
@@ -121,6 +165,7 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 	g_onyx = new OnyxNative(env, clazz);
 	return g_onyx->init(mapObj);
 }
+
 
 
 // C-Externed entry points for access to runtime and utils --------
@@ -169,6 +214,11 @@ JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const ch
 	}
 }
 
+// MapFns -------------------------------------------------
+//
+
+	// Get ----------------------
+	//
 
 JNIEXPORT jobject onyx_getObj(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
@@ -181,7 +231,6 @@ JNIEXPORT jobject onyx_getObj(jobject ipmap, const char* key) {
 }
 
 JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
-
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getInt(ipmap, k);
@@ -191,7 +240,6 @@ JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
 	}
 }
 JNIEXPORT float onyx_getFloat(jobject ipmap, const char* key) {
-
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getFloat(ipmap, k);
@@ -230,3 +278,81 @@ JNIEXPORT const char* onyx_getStr(jobject ipmap, const char* key) {
 		return NULL;
 	}
 }
+
+	// Assoc ---------------------------------
+	//
+
+JNIEXPORT jobject 	onyx_assocObj(jobject ipmap, const char* key, jobject value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocObj(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject onyx_assocInt(jobject ipmap, const char* key, int value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocInt(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject 	onyx_assocFloat(jobject ipmap, const char* key, float value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocFloat(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject 	onyx_assocDouble(jobject ipmap, const char* key, double value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocDouble(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject 	onyx_assocBool(jobject ipmap, const char* key, bool value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocBool(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject 	onyx_assocStr(jobject ipmap, const char* key, const char* value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		std::string v = value;
+		return g_onyx->assocStr(ipmap, k, v);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+	// Dissoc ---------------------------------
+	//
+
+JNIEXPORT jobject 	onyx_dissoc(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->dissoc(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
