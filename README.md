@@ -101,22 +101,44 @@ Create a nifty native library to use!<br>
 
 ### Interop Utilities
 
-All the deets on affordances<br>
+The *OnyxNative* support class provides both C and C++ accessors which make Clojure IPersistentMap
+manipulation straightforward. It also provides access to a global back-pointer to the VM runtime,
+the jclass object for the peer class as well as functions that encapsulate common setup for
+JNI objects like jmethodID's.<br>
 <br>
 
 #### VM 
+Using JNI functions require some combination of paramters that include a jclass, and often a jmethodID. 
+Obtaining them from fully-qualified class name requires stereotyped boilerplate. These functions wrap 
+this functionality:<br>
+<br>
 
-You can get at stuff in the VM runtime! <br>
+##### C++
+<br>
+```
+JNIEnv* getEnv();
+jclass  getCurrentClass();
+jclass  getClass(std::string className);
+jmethodID getMethod(std::string clazz, std::string name, std::string decl);
+jstring toJavaString(std::string s);
+```
+<br>
+##### C
+<br>
+```
+JNIEXPORT JNIEnv* onyx_getJNIEnv();
+JNIEXPORT jclass  onyx_getClass(const char* pFqClassName);
+JNIEXPORT jclass  onyx_getCurrentClass();
+JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const char* decl);
+```
 <br>
 
 #### Map 
 
-Map functions let you manipulate IPersistentMaps! <br>
 <br>
 
 
-### Memory Management Notes
-
+### Memory Management Notes 
 Outline how library unloading works and its implications for memory held by native libraries.<br>
 <br>
 
