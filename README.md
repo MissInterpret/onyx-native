@@ -135,7 +135,20 @@ JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const ch
 
 #### Map 
 
+Manipulation of Clojure maps' is at the heart of Onyx's processing approach. While this can be 
+avoided by native interface design, the provided set of map manipulation functions lower the
+barrier to entry of their use in native code.<br>
 <br>
+Due to variable arity handling across the Native/VM boundry they are restricted to the 
+basic set of manipulation functions:<br>
+
+##### C++
+
+
+
+
+##### C
+
 
 
 ### Memory Management Notes 
