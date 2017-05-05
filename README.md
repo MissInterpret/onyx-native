@@ -139,13 +139,37 @@ Manipulation of Clojure maps' is at the heart of Onyx's processing approach. Whi
 avoided by native interface design, the provided set of map manipulation functions lower the
 barrier to entry of their use in native code.<br>
 <br>
-Due to variable arity handling across the Native/VM boundry they are restricted to the 
-basic set of manipulation functions:<br>
+Native type conversion affordances reduce the boilerplate necessary when using basic native types, 
+but due to variable arity handling across the Native/VM boundry they are restricted to the 
+basic set of manipulation functions:
 
 ##### C++
 
+```
+jobject emptyMap();
+jobject merge(jobject a, jobject b);
 
+// Get
+jobject         getObj(jobject ipmap, std::string key);
+int             getInt(jobject ipmap, std::string key);
+long            getLong(jobject ipmap, std::string key);
+float           getFloat(jobject ipmap, std::string key);
+double          getDouble(jobject ipmap, std::string key);
+bool            getBool(jobject ipmap, std::string key);
+std::string     getStr(jobject ipmap, std::string key);
 
+// Assoc
+jobject assocObj(jobject ipmap, std::string key, jobject value);
+jobject assocInt(jobject ipmap, std::string key, int value);
+jobject assocLong(jobject ipmap, std::string key, long value);
+jobject assocFloat(jobject ipmap, std::string key, float value);
+jobject assocDouble(jobject ipmap, std::string key, double value);
+jobject assocBool(jobject ipmap, std::string key, bool value);
+jobject assocStr(jobject ipmap, std::string key, std::string value);
+
+// Dissoc
+jobject dissoc(jobject ipmap, std::string key);
+```
 
 ##### C
 
