@@ -104,7 +104,9 @@ Create a nifty native library to use!<br>
 The *OnyxNative* support class provides both C and C++ accessors which make Clojure IPersistentMap
 manipulation straightforward. It also provides access to a global back-pointer to the VM runtime,
 the jclass object for the peer class as well as functions that encapsulate common setup for
-JNI objects like jmethodID's.
+JNI objects like jmethodID's making the creation of from-native callbacks straightfoward for functionality
+like logging, etc.<br>
+<br>
 
 #### VM 
 
