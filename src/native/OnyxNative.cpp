@@ -197,28 +197,42 @@ jobject OnyxNative::assocObj(jobject ipmap, std::string key, jobject value) {
 }
 
 jobject OnyxNative::assocInt(jobject ipmap, std::string key, int value) {
-	// TODO: Create an Integer
-	return NULL;
+	jclass clazz = getClass("java/lang/Integer");
+	jmethodID mid =  m_env->GetMethodID(clazz, "<init>", "(I)V");
+	jobject obj = m_env->NewObject(clazz, mid, (jint) value);
+	return assocObj(ipmap, key, obj);
+}
+
+jobject OnyxNative::assocLong(jobject ipmap, std::string key, long value) {
+	jclass clazz = getClass("java/lang/Long");
+	jmethodID init =  m_env->GetMethodID(clazz, "<init>", "(J)V");
+	jobject obj = m_env->NewObject(clazz, init, (jlong) value);
+	return assocObj(ipmap, key, obj);
 }
 
 jobject OnyxNative::assocFloat(jobject ipmap, std::string key, float value) {
-	// TODO: Create an Float
-	return NULL;
+	jclass clazz = getClass("java/lang/Float");
+	jmethodID init =  m_env->GetMethodID(clazz, "<init>", "(F)V");
+	jobject obj = m_env->NewObject(clazz, init, (jfloat) value);
+	return assocObj(ipmap, key, obj);
 }
 
 jobject OnyxNative::assocDouble(jobject ipmap, std::string key, double value) {
-	// TODO: Create an Double
-	return NULL;
+	jclass clazz = getClass("java/lang/Double");
+	jmethodID init =  m_env->GetMethodID(clazz, "<init>", "(D)V");
+	jobject obj = m_env->NewObject(clazz, init, (jdouble) value);
+	return assocObj(ipmap, key, obj);
 }
 
 jobject OnyxNative::assocBool(jobject ipmap, std::string key, bool value) {
-	// TODO: Create an Boolean
-	return NULL;
+	jclass clazz = getClass("java/lang/Boolean");
+	jmethodID init =  m_env->GetMethodID(clazz, "<init>", "(Z)V");
+	jobject obj = m_env->NewObject(clazz, init, (jboolean) value);
+	return assocObj(ipmap, key, obj);
 }
 
 jobject OnyxNative::assocStr(jobject ipmap, std::string key, std::string value) {
-	// TODO: Create an String
-	return NULL;
+	return assocObj(ipmap, key, toJavaString(value));
 }
 
 	// Dissoc ------------------------
@@ -318,6 +332,17 @@ JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
 		return -1;
 	}
 }
+
+JNIEXPORT long onyx_getLong(jobject ipmap, const char* key) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->getLong(ipmap, k);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return -1;
+	}
+}
+
 JNIEXPORT float onyx_getFloat(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
@@ -375,6 +400,16 @@ JNIEXPORT jobject onyx_assocInt(jobject ipmap, const char* key, int value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocInt(ipmap, k, value);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+JNIEXPORT jobject onyx_assocLong(jobject ipmap, const char* key, long value) {
+	if (g_onyx != NULL) {
+		std::string k = key;
+		return g_onyx->assocLong(ipmap, k, value);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
