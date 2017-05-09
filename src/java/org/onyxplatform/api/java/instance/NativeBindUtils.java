@@ -40,6 +40,7 @@ public class NativeBindUtils
 
 		OnyxMap e = MapFns.toOnyxMap(methodCat);
 		Task methodTask = new Task(e);
+		System.out.println("NativeBindUtils::addFn> task=" + methodTask);
 		return catalog.addTask(methodTask);
 	}
 }

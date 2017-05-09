@@ -1,6 +1,7 @@
 (ns onyx-native.instance.bind
   (:gen-class)
-  (:require [onyx-java.instance.bind :as b]))
+  (:require [onyx-java.instance.bind :as b]
+            [onyx-java.instance.catalog :as cat]))
 
 (defn native? [instance]
   (contains? instance :native-instance/lib-name))
@@ -16,12 +17,6 @@
   (let [inst-ifn (instance id fq-class-name ctr-args)]
     (inst-ifn segment)))
 
-
-;; TODO: Need to over-ride these so that our 
-;;       native release is called so that
-;;       the global ref held in native code
-;;       is let go of.
-;;
 (defn release [task]
   ; TODO: pull the instance backing this task
   ;       and call releaseNativeResources 
