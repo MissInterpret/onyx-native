@@ -3,6 +3,7 @@ package onyxplatform.test;
 import clojure.lang.IPersistentMap;
 
 import org.onyxplatform.api.java.instance.NativeOnyxFn;
+import org.onyxplatform.api.java.instance.OnyxFn;
 
 /**
  * PassFn is a simple test class extending OnyxFn which is used to test

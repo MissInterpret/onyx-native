@@ -13,17 +13,20 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	protected static native void releaseNative();
 
 	public static IPersistentMap loadNativeResources(IPersistentMap m) {
+		System.out.println("NativeOnyxFn::loadNativeResources> loaded? " + libLoaded);
 		if (!libLoaded) {
 			String libName = (String) MapFns.get(m, "native-instance/lib-name");
-			System.loadLibrary(libName);
-			initArgs = initNative(m);	
+			System.out.println("NativeOnyxFn::loadNativeResources> loading=" + libName);
+//			System.loadLibrary(libName);
+//			initArgs = initNative(m);	
 			libLoaded = true;
 		}
 		return initArgs;
 	}
 
-	public static void releaseNativeResources(IPersistentMap m) {
-		releaseNative();
+	public static void releaseNativeResources() {
+		System.out.println("NativeOnyxFn::releaseNativeResources> m=" + m);
+//		releaseNative();
 	}
 
 	public NativeOnyxFn(IPersistentMap m) {

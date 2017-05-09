@@ -18,13 +18,21 @@ import org.onyxplatform.api.java.instance.NativeBindUtils;
  */
 public class SingleJavaTest extends JobBuilder {
 
+	public static final String PASS_FN = "onyxplatform.test.PassFn";
+	public static final String MAP_FN = "onyxplatform.test.MapFn";
+
+	private String className;
+	private String libName;
+
     /**
      * Constructs a simple Job test that can run a pure java function, loaded
      * from an EDN file which is passed as the only parameter.
      * @param  onyxEnvConfig path to the EDN file specifying how to set up the job
      */
-	public SingleJavaTest(String onyxEnvConfig) {
+	public SingleJavaTest(String onyxEnvConfig, String className, String libName) {
 		super(onyxEnvConfig, 5, 50);
+		this.className = className;
+		this.libName = libName;
 	}
 
     /**
@@ -33,7 +41,7 @@ public class SingleJavaTest extends JobBuilder {
 	public void configureCatalog() {
 		Catalog c = job.getCatalog();
 		NativeBindUtils.addFn(c, "pass", batchSize(), batchTimeout(),
-				      "onyxplatform.test.PassFn", MapFns.emptyMap());
-		System.out.println("SingleJavaTest::configureCatalog> c=" + c.tasks());
+				      className, MapFns.emptyMap(),
+				      libName, 	 MapFns.emptyMap());
 	}
 }

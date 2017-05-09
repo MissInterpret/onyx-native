@@ -18,13 +18,15 @@
     (inst-ifn segment)))
 
 (defn release [task]
-  ; TODO: pull the instance backing this task
-  ;       and call releaseNativeResources 
-  ;       before the dissoc
-  ;
-  #_(let [k (keyname (cat/id task))] (if (contains? @instances k) (swap! instances dissoc k))))
+  (let [id (cat/id task)
+        inst (b/instance id) ] 
+    (if-not (nil? inst) 
+      (do
+        (.releaseNativeResources inst)
+        (b/release task)))))
 
 (defn release-all [catalog]
   (doseq [task catalog]
-    (if (cat/instance? task)
-      (release task))))
+    (cond
+      (native? task) (release task)
+      :else (b/release task))))
