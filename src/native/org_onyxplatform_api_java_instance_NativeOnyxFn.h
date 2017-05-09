@@ -7,7 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 /*
  * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
  * Method:    initNative
@@ -15,6 +14,14 @@ extern "C" {
  */
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
   (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
+ * Method:    releaseNative
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_releaseNative
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

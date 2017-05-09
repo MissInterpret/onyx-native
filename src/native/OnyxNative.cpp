@@ -157,8 +157,6 @@ double OnyxNative::getDouble(jobject ipmap, std::string key) {
 	else {
 		return -1.0f;
 	}
-	double d = 2.0;
-	return d;
 }
 
 bool OnyxNative::getBool(jobject ipmap, std::string key) {
@@ -259,12 +257,24 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 	return g_onyx->init(mapObj);
 }
 
+/*
+ * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
+ * Method:    releaseNative
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_releaseNative
+  (JNIEnv *env, jclass clazz) 
+{
+	delete g_onyx;
+	g_onyx = NULL;
+}
+
 
 
 // C-Externed entry points for access to runtime and utils --------
 //
 
-JNIEXPORT JNIEnv* onyx_getJNIEnv() {
+JNIEXPORT JNIEnv* JNICALL onyx_getJNIEnv() {
 	if (g_onyx != NULL) {
 		return g_onyx->getEnv();
 	} else {
@@ -273,7 +283,7 @@ JNIEXPORT JNIEnv* onyx_getJNIEnv() {
 	}
 }
 
-JNIEXPORT jclass onyx_getCurrentClass() {
+JNIEXPORT jclass JNICALL onyx_getCurrentClass() {
 	if (g_onyx != NULL) {
 		return g_onyx->getCurrentClass();
 	} else {
@@ -282,7 +292,7 @@ JNIEXPORT jclass onyx_getCurrentClass() {
 	}
 }
 
-JNIEXPORT jclass onyx_getClass(const char* pFqClassName) {
+JNIEXPORT jclass JNICALL onyx_getClass(const char* pFqClassName) {
 	if (g_onyx != NULL) {
 		std::string className = pFqClassName;
 		return g_onyx->getClass(className);
@@ -295,7 +305,7 @@ JNIEXPORT jclass onyx_getClass(const char* pFqClassName) {
 /**
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
-JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const char* decl) {
+JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl) {
 	if (g_onyx != NULL) {
 		std::string cl = clazz;
 		std::string n = name;
@@ -313,7 +323,7 @@ JNIEXPORT jmethodID onyx_getMethod(const char* clazz, const char* name, const ch
 	// Get ----------------------
 	//
 
-JNIEXPORT jobject onyx_getObj(jobject ipmap, const char* key) {
+JNIEXPORT jobject JNICALL onyx_getObj(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getObj(ipmap, k);
@@ -323,7 +333,7 @@ JNIEXPORT jobject onyx_getObj(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
+JNIEXPORT int JNICALL onyx_getInt(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getInt(ipmap, k);
@@ -333,7 +343,7 @@ JNIEXPORT int onyx_getInt(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT long onyx_getLong(jobject ipmap, const char* key) {
+JNIEXPORT long JNICALL onyx_getLong(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getLong(ipmap, k);
@@ -343,7 +353,7 @@ JNIEXPORT long onyx_getLong(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT float onyx_getFloat(jobject ipmap, const char* key) {
+JNIEXPORT float JNICALL onyx_getFloat(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getFloat(ipmap, k);
@@ -353,7 +363,7 @@ JNIEXPORT float onyx_getFloat(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT double onyx_getDouble(jobject ipmap, const char* key) {
+JNIEXPORT double JNICALL onyx_getDouble(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getDouble(ipmap, k);
@@ -363,7 +373,7 @@ JNIEXPORT double onyx_getDouble(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT bool 	onyx_getBool(jobject ipmap, const char* key) {
+JNIEXPORT bool 	JNICALL onyx_getBool(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->getBool(ipmap, k);
@@ -373,7 +383,7 @@ JNIEXPORT bool 	onyx_getBool(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT const char* onyx_getStr(jobject ipmap, const char* key) {
+JNIEXPORT const char* JNICALL onyx_getStr(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return (g_onyx->getStr(ipmap, k)).c_str();
@@ -386,7 +396,7 @@ JNIEXPORT const char* onyx_getStr(jobject ipmap, const char* key) {
 	// Assoc ---------------------------------
 	//
 
-JNIEXPORT jobject 	onyx_assocObj(jobject ipmap, const char* key, jobject value) {
+JNIEXPORT jobject 	JNICALL onyx_assocObj(jobject ipmap, const char* key, jobject value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocObj(ipmap, k, value);
@@ -396,7 +406,7 @@ JNIEXPORT jobject 	onyx_assocObj(jobject ipmap, const char* key, jobject value) 
 	}
 }
 
-JNIEXPORT jobject onyx_assocInt(jobject ipmap, const char* key, int value) {
+JNIEXPORT jobject JNICALL onyx_assocInt(jobject ipmap, const char* key, int value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocInt(ipmap, k, value);
@@ -406,7 +416,7 @@ JNIEXPORT jobject onyx_assocInt(jobject ipmap, const char* key, int value) {
 	}
 }
 
-JNIEXPORT jobject onyx_assocLong(jobject ipmap, const char* key, long value) {
+JNIEXPORT jobject JNICALL onyx_assocLong(jobject ipmap, const char* key, long value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocLong(ipmap, k, value);
@@ -416,7 +426,7 @@ JNIEXPORT jobject onyx_assocLong(jobject ipmap, const char* key, long value) {
 	}
 }
 
-JNIEXPORT jobject 	onyx_assocFloat(jobject ipmap, const char* key, float value) {
+JNIEXPORT jobject 	JNICALL onyx_assocFloat(jobject ipmap, const char* key, float value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocFloat(ipmap, k, value);
@@ -426,7 +436,7 @@ JNIEXPORT jobject 	onyx_assocFloat(jobject ipmap, const char* key, float value) 
 	}
 }
 
-JNIEXPORT jobject 	onyx_assocDouble(jobject ipmap, const char* key, double value) {
+JNIEXPORT jobject 	JNICALL onyx_assocDouble(jobject ipmap, const char* key, double value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocDouble(ipmap, k, value);
@@ -436,7 +446,7 @@ JNIEXPORT jobject 	onyx_assocDouble(jobject ipmap, const char* key, double value
 	}
 }
 
-JNIEXPORT jobject 	onyx_assocBool(jobject ipmap, const char* key, bool value) {
+JNIEXPORT jobject 	JNICALL onyx_assocBool(jobject ipmap, const char* key, bool value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->assocBool(ipmap, k, value);
@@ -446,7 +456,7 @@ JNIEXPORT jobject 	onyx_assocBool(jobject ipmap, const char* key, bool value) {
 	}
 }
 
-JNIEXPORT jobject 	onyx_assocStr(jobject ipmap, const char* key, const char* value) {
+JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, const char* value) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		std::string v = value;
@@ -460,7 +470,7 @@ JNIEXPORT jobject 	onyx_assocStr(jobject ipmap, const char* key, const char* val
 	// Dissoc ---------------------------------
 	//
 
-JNIEXPORT jobject 	onyx_dissoc(jobject ipmap, const char* key) {
+JNIEXPORT jobject 	JNICALL onyx_dissoc(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
 		return g_onyx->dissoc(ipmap, k);

@@ -16,3 +16,20 @@
   (let [inst-ifn (instance id fq-class-name ctr-args)]
     (inst-ifn segment)))
 
+
+;; TODO: Need to over-ride these so that our 
+;;       native release is called so that
+;;       the global ref held in native code
+;;       is let go of.
+;;
+(defn release [task]
+  ; TODO: pull the instance backing this task
+  ;       and call releaseNativeResources 
+  ;       before the dissoc
+  ;
+  #_(let [k (keyname (cat/id task))] (if (contains? @instances k) (swap! instances dissoc k))))
+
+(defn release-all [catalog]
+  (doseq [task catalog]
+    (if (cat/instance? task)
+      (release task))))
