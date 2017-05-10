@@ -1,17 +1,18 @@
-APPNAME=OnyxNativeTest
-
-ONYX_NATIVE_DIR=
+LIBNAME=OnyxNativeTest
 
 CC=g++
+
 
 LNFLAGS=-dynamiclib -I/System/Library/Frameworks/JavaVM.framework/Headers -framework JavaVM
 CFLAGS=-I"/System/Library/Frameworks/JavaVM.framework/Headers" -fpic 
 
 all: clean build
 
+#TODO: Put all libs in one library? 2 ? 
+
 build: 
 	$(CC) $(CFLAGS) -c OnyxNative.cpp
-	$(CC) $(LNFLAGS) -o lib$(APPNAME).jnilib OnyxNative.o 
+	$(CC) $(LNFLAGS) -o lib$(LIBNAME).jnilib OnyxNative.o 
 
 clean:
 	-rm *.o
@@ -19,5 +20,5 @@ clean:
 	-rm *.jnilib
 
 run: clean build 
-	java -Djava.library.path=. $(APPNAME)
+	java -Djava.library.path=. $(LIBNAME)
 

@@ -3,7 +3,7 @@ package onyxplatform.test;
 import clojure.lang.IPersistentMap;
 import clojure.lang.PersistentVector;
 
-import org.onyxplatform.api.java.OnyxEnv;
+import org.onyxplatform.api.java.NativeOnyxEnv;
 import org.onyxplatform.api.java.Job;
 import org.onyxplatform.api.java.Catalog;
 import org.onyxplatform.api.java.Lifecycles;
@@ -11,6 +11,8 @@ import org.onyxplatform.api.java.Lifecycles;
 import org.onyxplatform.api.java.utils.MapFns;
 import org.onyxplatform.api.java.utils.AsyncCatalog;
 import org.onyxplatform.api.java.utils.AsyncLifecycles;
+
+import org.onyxplatform.api.java.instance.NativeBindUtils;
 
 /**
  * JobBuilder is a simple centralized abstract test class useful (and used)
@@ -23,7 +25,7 @@ import org.onyxplatform.api.java.utils.AsyncLifecycles;
  */
 public abstract class JobBuilder {
 
-    protected OnyxEnv onyxEnv;
+    protected NativeOnyxEnv onyxEnv;
     protected Integer batchSize;
     protected Integer batchTimeout;
     protected Job job;
@@ -37,7 +39,7 @@ public abstract class JobBuilder {
      */
     public JobBuilder(String onyxEnvConfig, int batchSize, int batchTimeout) {
 
-	    onyxEnv = new OnyxEnv("onyx-env.edn", true);
+	    onyxEnv = new NativeOnyxEnv("onyx-env.edn", true);
 
 	    this.batchSize = new Integer(batchSize);
 	    this.batchTimeout = new Integer(batchTimeout);
@@ -78,7 +80,7 @@ public abstract class JobBuilder {
      * Returns the onyxEnv object associated with the JobBuilder
      * @return OnyxEnv object used by the JobBuilder
      */
-    public OnyxEnv getOnyx() {
+    public NativeOnyxEnv getOnyx() {
 	    return onyxEnv;
     }
 
@@ -136,6 +138,14 @@ public abstract class JobBuilder {
     public IPersistentMap runJobCollectOutputs(PersistentVector inputs) {
 	    IPersistentMap jmeta = runJob(inputs);
 	    return AsyncLifecycles.collectOutputs(job.getLifecycles(), "out");
+    }
+
+    /**
+     * Releases all native-backed instances 
+     * and invokes gc.
+     */
+    public void releaseAll() {
+	NativeBindUtils.releaseInstances(job);
     }
 
     /**

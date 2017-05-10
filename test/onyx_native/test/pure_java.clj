@@ -7,15 +7,11 @@
     (let [testObject (SingleJavaTest. "onyx-env.edn" SingleJavaTest/PASS_FN "OnyxNativeTest")
           inputs [{:pass-through "PASSTHROUGH"}]
           expected {:out [{:pass-through "PASSTHROUGH"} :done]}
-          cat (.configureCatalog testObject)
-          job (.toArray (.getJob testObject))
-         ; outputs (.runJobCollectOutputs testObject [{:pass-through "PASSTHROUGH"}])
-          ]
-      (println "Job:")
-      (println job)
-        ;(.shutdown testObject)
-        (is true)
-        #_(is (= (first inputs) (first (:out outputs))))))
+          outputs (.runJobCollectOutputs testObject [{:pass-through "PASSTHROUGH"}]) ]
+      (.releaseAll testObject)
+      (.shutdown testObject)
+      (is (= (first inputs) (first (:out outputs))))))
+
 
 #_(deftest gc-test
     (let [testObject (SingleJavaTest. "onyx-env.edn")

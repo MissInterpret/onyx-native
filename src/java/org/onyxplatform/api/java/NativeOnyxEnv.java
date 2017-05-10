@@ -8,6 +8,10 @@ public class NativeOnyxEnv extends OnyxEnv {
 		super(onyxEnvConfig);
 	}
 
+	public NativeOnyxEnv(String onyxEnvConfig, boolean startOnyx) {
+		super(onyxEnvConfig, startOnyx);
+	}
+
 	// Over-ride job submission to use NAPI
 	// so that all depended Clojure utilities
 	// are available during Job runtime
