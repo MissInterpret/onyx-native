@@ -1,24 +1,28 @@
-LIBNAME=OnyxNativeTest
 
 CC=g++
 
+ONYXDIR="../../src/native"
 
 LNFLAGS=-dynamiclib -I/System/Library/Frameworks/JavaVM.framework/Headers -framework JavaVM
-CFLAGS=-I"/System/Library/Frameworks/JavaVM.framework/Headers" -fpic 
+CFLAGS=-I"/System/Library/Frameworks/JavaVM.framework/Headers" -I$(ONYXDIR) -fpic 
 
-all: clean build
 
-#TODO: Put all libs in one library? 2 ? 
 
-build: 
-	$(CC) $(CFLAGS) -c OnyxNative.cpp
-	$(CC) $(LNFLAGS) -o lib$(LIBNAME).jnilib OnyxNative.o 
+SOURCES=$(ONYXDIR)/OnyxNative.cpp  
+OBJECTS=$(SOURCES:.cpp=.o)
+
+LIBNAME=OnyxNativeTest
+DYLIB=lib$(LIBNAME).jnilib
+
+all: clean $(SOURCES) $(DYLIB) 
+
+$(DYLIB): $(OBJECTS)
+	$(CC) $(LNFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	-rm *.o
-	-rm lib*.so
 	-rm *.jnilib
-
-run: clean build 
-	java -Djava.library.path=. $(LIBNAME)
 

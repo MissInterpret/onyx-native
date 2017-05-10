@@ -20,6 +20,7 @@
 (defn release [task]
   (let [id (cat/id task)
         ^NativeOnyxFn inst (b/instance id) ] 
+    (println "bind.release> id=" id)
     (if-not (nil? inst) 
       (do
         (.releaseNativeResources inst)
