@@ -10,5 +10,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
-onyx.log
+*.log
 *.swp

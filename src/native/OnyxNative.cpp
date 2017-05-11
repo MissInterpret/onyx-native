@@ -27,7 +27,11 @@ OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 }
 
 OnyxNative::~OnyxNative () {
+	cout << "OnyxNative::~OnyxNative> deleting global class ref" << endl;
 	m_env->DeleteGlobalRef(m_instClass);
+	m_instClass = NULL;
+	m_findClassId = NULL;
+	m_env = NULL;
 }
 
 
@@ -60,7 +64,11 @@ jclass OnyxNative::getClass(std::string className) {
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
 jmethodID OnyxNative::getMethod(std::string clazz, std::string name, std::string decl) {
+	cout << "OnyxNative::getMethod> clazz=" << clazz << endl;
+	cout << "OnyxNative::getMethod> name=" << name << endl;
+	cout << "OnyxNative::getMethod> decl=" << decl << endl;
 	jclass c = getClass(clazz);
+	cout << "OnyxNative::getMethod> c=" << c << endl;
 	return m_env->GetMethodID(c, name.c_str(), decl.c_str());
 }
 
@@ -74,7 +82,7 @@ jstring OnyxNative::toJavaString(std::string s) {
 
 jobject OnyxNative::init (jobject mapObj) {
 
-	//m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
+	m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
 
 	//m_mapMergeId = getMethod("org/onyxplatform/api/java/utils/MapFns", "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;");
 

@@ -21,7 +21,6 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	public IPersistentMap loadNativeResources(String libName, IPersistentMap args) 
 		throws java.lang.UnsatisfiedLinkError
 	{
-		System.out.println("NativeOnyxFn::loadNativeResources> loaded? " + libLoaded);
 		if (!libLoaded) {
 			libraryName = libName;
 			System.out.println("NativeOnyxFn::loadNativeResources> loading=" + libName);
@@ -37,9 +36,8 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	 * it can be garbage collected.
 	 */
 	public void releaseNativeResources() {
-		System.out.println("NativeOnyxFn::releaseNativeResources>");
 		if (libLoaded) {
-//		releaseNative();
+			releaseNative();
 			libLoaded = false;
 		}
 	}
