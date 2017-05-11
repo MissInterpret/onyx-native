@@ -16,6 +16,8 @@ OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
 
 	m_env = env;
 
+	cerr << "OnyxNative::OnyxNative> called, m_env=" << m_env << endl;
+
 	// Hold on to the class as a global
 	// reference for use with class-specific
 	// caching classloader
@@ -48,6 +50,9 @@ jclass OnyxNative::getClass(std::string className) {
 	// can be unloaded once the backing instance
 	// is released.
 	// 
+	cout << "OnyxNative::getClasss> className=" << className << endl;
+	cout << "OnyxNative::getClasss> m_inst=" << m_instClass << endl;
+	cout << "OnyxNative::getClasss> m_findClassId=" << m_findClassId << endl;
 	return (jclass) m_env->CallStaticObjectMethod(m_instClass, m_findClassId, className.c_str());
 }
 
@@ -69,15 +74,15 @@ jstring OnyxNative::toJavaString(std::string s) {
 
 jobject OnyxNative::init (jobject mapObj) {
 
-	m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
+	//m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
 
-	m_mapMergeId = getMethod("org/onyxplatform/api/java/utils/MapFns", "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;");
+	//m_mapMergeId = getMethod("org/onyxplatform/api/java/utils/MapFns", "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;");
 
-	m_mapGetId = getMethod("org/onyxplatform/api/java/utils/MapFns", "get", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap)Lclojure/lang/IPersistentMap;");
+	//m_mapGetId = getMethod("org/onyxplatform/api/java/utils/MapFns", "get", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap)Lclojure/lang/IPersistentMap;");
 
-	m_mapAssocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "assoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;");
+	//m_mapAssocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "assoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;");
 
-	m_mapDissocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "dissoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;");
+	//m_mapDissocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "dissoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;");
 
 	// Assoc in a success value?
 	return mapObj;

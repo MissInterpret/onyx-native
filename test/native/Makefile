@@ -7,20 +7,14 @@ LNFLAGS=-dynamiclib -I/System/Library/Frameworks/JavaVM.framework/Headers -frame
 CFLAGS=-I"/System/Library/Frameworks/JavaVM.framework/Headers" -I$(ONYXDIR) -fpic 
 
 
-
-SOURCES=$(ONYXDIR)/OnyxNative.cpp  
-OBJECTS=$(SOURCES:.cpp=.o)
-
 LIBNAME=OnyxNativeTest
 DYLIB=lib$(LIBNAME).jnilib
 
-all: clean $(SOURCES) $(DYLIB) 
+all: clean build
 
-$(DYLIB): $(OBJECTS)
-	$(CC) $(LNFLAGS) $(OBJECTS) -o $@
-
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+build:
+	$(CC) $(CFLAGS) -c "../../src/native/OnyxNative.cpp"
+	$(CC) $(LNFLAGS) OnyxNative.o -o $(DYLIB)
 
 clean:
 	-rm *.o

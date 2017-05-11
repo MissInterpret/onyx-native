@@ -18,13 +18,15 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	 * loads the underlying native library if it hasn't
 	 * already been loaded for this class.
 	 */
-	public IPersistentMap loadNativeResources(String libName, IPersistentMap args) {
+	public IPersistentMap loadNativeResources(String libName, IPersistentMap args) 
+		throws java.lang.UnsatisfiedLinkError
+	{
 		System.out.println("NativeOnyxFn::loadNativeResources> loaded? " + libLoaded);
 		if (!libLoaded) {
 			libraryName = libName;
 			System.out.println("NativeOnyxFn::loadNativeResources> loading=" + libName);
-//			System.loadLibrary(libName);
-//			initArgs = initNative(m);	
+			System.loadLibrary(libName);
+			initArgs = initNative(args);	
 			libLoaded = true;
 		}
 		return initArgs;

@@ -10,6 +10,8 @@
   :source-paths ["src/clj" "test"]
   :java-source-paths ["src/java" "test/java"]
   :javac-options ["-target" "1.8" "-source" "1.8" "-Xlint:unchecked"]
+  ; Adds the test/native directory to the runtime library path
+  :java-opts [ ~(str "-Djava.library.path=./test/native:"  (System/getProperty "java.library.path"))]
   :resource-paths ["resources"]
   :repl-options {:init-ns onyx-native.main
                  :caught clj-stacktrace.repl/pst+ }
