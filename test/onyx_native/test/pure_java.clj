@@ -47,14 +47,23 @@
       (.shutdown testObject)
       (is (= expected outputs))))
 
+(deftest assoc-map-test
+    (let [testObject (SingleJavaTest. 
+                       "onyx-env.edn" 
+                       SingleJavaTest/ASSOC_FN "OnyxNativeTest")
+          inputs [{}]
+          expected {:out [{:object {}
+                           :int 1
+                           :float (float 1.1)
+                           :double (double 2.2)
+                           :bool true
+                           :str "TEST"} :done]}
+          outputs (.runJobCollectOutputs testObject inputs) ]
+      (println "assoc-map-test> outputs=" outputs)
+      (.releaseAll testObject)
+      (.shutdown testObject)
+      (is (= expected outputs))))
 
-#_(deftest gc-test
-    (let [testObject (SingleJavaTest. "onyx-env.edn")
-          inputs [{:pass-through "PASSTHROUGH"}]
-          expected "Success!"
-          job-meta (.runJob testObject [{:pass-through "PASSTHROUGH"}])
-          env (.getOnyx testObject) ]
-      (try
-        (is (.gc env))
-        (finally (.shutdown testObject)))))
+
+
 
