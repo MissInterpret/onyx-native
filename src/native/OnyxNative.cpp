@@ -69,7 +69,6 @@ jclass OnyxNative::getClass(std::string className) {
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
 jmethodID OnyxNative::getMethod(jclass clazz, std::string name, std::string decl, bool isStatic) {
-
 	jmethodID id = NULL;
 	if (isStatic) {
 		id =  m_env->GetStaticMethodID(clazz, name.c_str(), decl.c_str());
@@ -283,8 +282,7 @@ jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
   (JNIEnv *env, jclass, jobject instObj, jobject mapObj)
 {
-	jclass c = env->GetObjectClass(instObj);
-	g_onyx = new OnyxNative(env, c);
+	g_onyx = new OnyxNative(env, instObj);
 	return g_onyx->init(mapObj);
 }
 
