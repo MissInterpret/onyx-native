@@ -3,8 +3,10 @@
   (:import [onyxplatform.test SingleJavaTest SingleCljTest])
   (:require [clojure.test :refer [deftest is]]))
 
-(deftest single-java-test
-    (let [testObject (SingleJavaTest. "onyx-env.edn" SingleJavaTest/PASS_FN "OnyxNativeTest")
+(deftest pass-java-test
+    (let [testObject (SingleJavaTest. 
+                       "onyx-env.edn" 
+                       SingleJavaTest/PASS_FN "OnyxNativeTest")
           inputs [{:pass-through "PASSTHROUGH"}]
           expected {:out [{:pass-through "PASSTHROUGH"} :done]}
           outputs (.runJobCollectOutputs testObject [{:pass-through "PASSTHROUGH"}]) ]

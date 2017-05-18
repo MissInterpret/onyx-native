@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 #include <jni.h>
@@ -348,6 +349,15 @@ JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, 
 
 // MapFns -------------------------------------------------
 //
+		
+JNIEXPORT jobject JNICALL onyx_emptyMap() {
+	if (g_onyx != NULL) {
+		return g_onyx->emptyMap();
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
 
 	// Get ----------------------
 	//

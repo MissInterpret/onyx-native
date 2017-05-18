@@ -1,7 +1,18 @@
-using namespace std;
-#include <iostream>
+
+#ifndef _Included_OnyxNative
+#define _Included_OnyxNative
 
 #include <jni.h>
+#include <stdbool.h>
+
+#ifdef __cplusplus
+
+// TODO: I believe you should wrap this with ifdef cpplus so 
+//       its inclusion into C code doesn't cause compiler warnings
+
+#include <iostream>
+#include <string>
+using namespace std;
 
 class OnyxNative {
 
@@ -84,6 +95,8 @@ extern "C" {
 
 OnyxNative *g_onyx;
 
+#endif
+
 // Runtime accessors 
 //
 
@@ -118,10 +131,13 @@ JNIEXPORT jobject 	JNICALL onyx_assocLong(jobject ipmap, const char* key, long v
 JNIEXPORT jobject 	JNICALL onyx_assocFloat(jobject ipmap, const char* key, float value);
 JNIEXPORT jobject 	JNICALL onyx_assocDouble(jobject ipmap, const char* key, double value);
 JNIEXPORT jobject 	JNICALL onyx_assocBool(jobject ipmap, const char* key, bool value);
-JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, std::string value);
+JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, const char* value);
 
 // Dissoc
 JNIEXPORT jobject 	JNICALL onyx_dissoc(jobject ipmap, const char*);
 
+#ifdef __cplusplus
 }
+#endif
 
+#endif

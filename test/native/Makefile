@@ -1,5 +1,6 @@
 
-CC=g++
+CPP=g++
+CC=gcc
 
 ONYXDIR="../../src/native"
 
@@ -13,8 +14,9 @@ DYLIB=lib$(LIBNAME).jnilib
 all: clean build
 
 build:
-	$(CC) $(CFLAGS) -c "../../src/native/OnyxNative.cpp"
-	$(CC) $(LNFLAGS) OnyxNative.o -o $(DYLIB)
+	$(CPP) $(CFLAGS) -c "../../src/native/OnyxNative.cpp"
+	$(CC) $(CFLAGS) -c OnyxNativeTest.c
+	$(CPP) $(LNFLAGS) OnyxNativeTest.o OnyxNative.o -o $(DYLIB)
 
 clean:
 	-rm *.o

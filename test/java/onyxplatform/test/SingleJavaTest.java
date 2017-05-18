@@ -19,7 +19,6 @@ import org.onyxplatform.api.java.instance.NativeBindUtils;
 public class SingleJavaTest extends JobBuilder {
 
 	public static final String PASS_FN = "onyxplatform.test.PassFn";
-	public static final String MAP_FN = "onyxplatform.test.MapFn";
 
 	private String className;
 	private String libName;
