@@ -37,7 +37,6 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	{
 		if (!libLoaded) {
 			libraryName = libName;
-			System.out.println("NativeOnyxFn::loadNativeResources> loading=" + libName);
 			System.loadLibrary(libName);
 			initArgs = initNative(this, args);	
 			libLoaded = true;
@@ -51,7 +50,6 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	 */
 	public void releaseNativeResources() {
 		if (libLoaded) {
-			System.out.println("NativeOnyxFn::releaseNativeResources> entered");
 			releaseNative();
 			libLoaded = false;
 		}

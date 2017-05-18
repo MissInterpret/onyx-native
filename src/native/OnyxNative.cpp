@@ -26,12 +26,9 @@ OnyxNative::OnyxNative (JNIEnv *env, jobject obj) {
 
 	std::string msg = "OnyxNative::OnyxNative> failed to find MapFns";
 	checkAndThrow(msg);
-
-	cout << "OnyxNative::OnyxNative> bound refs" << endl;
 }
 
 OnyxNative::~OnyxNative () {
-	cout << "OnyxNative::~OnyxNative> deleting global refs" << endl;
 	m_env->DeleteGlobalRef(m_instObj);
 	m_env->DeleteGlobalRef(m_mapClass);
 	m_instObj = NULL;
@@ -286,7 +283,6 @@ jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
   (JNIEnv *env, jclass, jobject instObj, jobject mapObj)
 {
-	cout << "JNI::initNative> called" << endl;
 	jclass c = env->GetObjectClass(instObj);
 	g_onyx = new OnyxNative(env, c);
 	return g_onyx->init(mapObj);
@@ -300,7 +296,6 @@ JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_i
 JNIEXPORT void JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_releaseNative
   (JNIEnv *env, jclass clazz) 
 {
-	cout << "JNI::releaseNative> called" << endl;
 	delete g_onyx;
 	g_onyx = NULL;
 }
