@@ -18,9 +18,8 @@
     (inst-ifn segment)))
 
 (defn release [task]
-  (let [id (cat/id task)
+  (let [id (b/task-id task)
         ^NativeOnyxFn inst (b/instance id) ] 
-    (println "bind.release> id=" id)
     (if-not (nil? inst) 
       (do
         (.releaseNativeResources inst)
@@ -28,6 +27,6 @@
 
 (defn release-all [catalog]
   (doseq [task catalog]
-    (cond
-      (native? task) (release task)
-      :else (b/release task))))
+    (if (native? task)
+      (release task)
+      (b/release task))))

@@ -51,6 +51,7 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	 */
 	public void releaseNativeResources() {
 		if (libLoaded) {
+			System.out.println("NativeOnyxFn::releaseNativeResources> entered");
 			releaseNative();
 			libLoaded = false;
 		}

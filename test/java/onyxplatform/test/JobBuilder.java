@@ -145,6 +145,7 @@ public abstract class JobBuilder {
      * and invokes gc.
      */
     public void releaseAll() {
+	    System.out.println("JobBuilder::releaseAll> entered");
 	NativeBindUtils.releaseInstances(job);
     }
 
