@@ -16,12 +16,14 @@ public class DissocFn extends NativeOnyxFn {
 		super(m);
 	}
 
+	protected native IPersistentMap dissoc(IPersistentMap m, String key);
+
 	/**
-	 * Consumes a map with a single key-value pair,
-	 * returns a single :success true or false
-	 * map.
+	 * Consumes a map with a single key-value pair
+	 * of :dissoc "DISSOC" 
+	 * returns an empty map
 	 */
 	public Object consumeSegment(IPersistentMap m) {
-		return m;
+		return dissoc(m, "dissoc");
 	}
 }

@@ -67,6 +67,7 @@ class OnyxNative {
 		jobject assocDouble(jobject ipmap, std::string key, double value);
 		jobject assocBool(jobject ipmap, std::string key, bool value);
 		jobject assocStr(jobject ipmap, std::string key, std::string value);
+		jobject assocKeyword(jobject ipmap, std::string key, std::string value);
 
 			// Dissoc
 		jobject dissoc(jobject ipmap, std::string key);
@@ -76,7 +77,9 @@ class OnyxNative {
 		//
 		
 		void checkAndThrow(std::string msg);
+
 		jstring toJavaString(std::string s);
+
 
 	private: 
 		JNIEnv* m_env;
@@ -109,11 +112,13 @@ JNIEXPORT jobject JNICALL onyx_getInstance();
 */
 JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl, bool isStatic);
 
+
 // MapFns -----------------------------------------------------
 //
 
 JNIEXPORT jobject 	JNICALL onyx_emptyMap();
 JNIEXPORT jobject 	JNICALL onyx_merge(jobject a, jobject b);
+JNIEXPORT jobject 	JNICALL onyx_dissoc(jobject ipmap, const char* key);
 
 // Get ---------------	
 JNIEXPORT jobject 	JNICALL onyx_getObj(jobject ipmap, const char* key);
@@ -132,9 +137,7 @@ JNIEXPORT jobject 	JNICALL onyx_assocFloat(jobject ipmap, const char* key, float
 JNIEXPORT jobject 	JNICALL onyx_assocDouble(jobject ipmap, const char* key, double value);
 JNIEXPORT jobject 	JNICALL onyx_assocBool(jobject ipmap, const char* key, bool value);
 JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, const char* value);
-
-// Dissoc
-JNIEXPORT jobject 	JNICALL onyx_dissoc(jobject ipmap, const char*);
+JNIEXPORT jobject 	JNICALL onyx_assocKeyword(jobject ipmap, const char* key, const char* value);
 
 #ifdef __cplusplus
 }

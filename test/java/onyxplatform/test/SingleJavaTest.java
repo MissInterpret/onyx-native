@@ -19,6 +19,11 @@ import org.onyxplatform.api.java.instance.NativeBindUtils;
 public class SingleJavaTest extends JobBuilder {
 
 	public static final String PASS_FN = "onyxplatform.test.PassFn";
+	public static final String EMPTY_FN = "onyxplatform.test.EmptyFn";
+	public static final String MERGE_FN = "onyxplatform.test.MergeFn";
+	public static final String DISSOC_FN = "onyxplatform.test.DissocFn";
+	public static final String ASSOC_FN = "onyxplatform.test.AssocFn";
+	public static final String GET_FN = "onyxplatform.test.GetFn";
 
 	private String className;
 	private String libName;
