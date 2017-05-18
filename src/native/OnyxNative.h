@@ -6,23 +6,31 @@ using namespace std;
 class OnyxNative {
 
 	public: 
-		OnyxNative(JNIEnv *env, jclass clazz);
+		OnyxNative(JNIEnv *env, jobject obj);
 		~OnyxNative();
 
 		jobject init(jobject mapObj);
 
-		// Classloading utilities --------
+
+		// JNI --------------------------
 		//
 
 		JNIEnv* getEnv();
-		jclass  getCurrentClass();
+
+		/**
+		 * The instance bound to this library
+		 */
+		jobject  getInstance();
+
+		/**
+		 * NOTE: All JNI objects are scoped to its calling context.
+		 */
 		jclass  getClass(std::string className);
 
 		/**
  		* NOTE: jmethodID's have full runtime scope and can be re-used.
  		*/
-		jmethodID getMethod(std::string clazz, std::string name, std::string decl);
-		jstring toJavaString(std::string s);
+		jmethodID getMethod(jclass clazz, std::string name, std::string decl, bool isStatic);
 
 
 		// MapFns -----------------------
@@ -52,12 +60,19 @@ class OnyxNative {
 			// Dissoc
 		jobject dissoc(jobject ipmap, std::string key);
 
+
+		// Utils -------------------------
+		//
+		
+		void checkAndThrow(std::string msg);
+		jstring toJavaString(std::string s);
+
 	private: 
 		JNIEnv* m_env;
-		jclass m_instClass;
+		jobject m_instObj;
 
-		// Utility class methods
-		jmethodID m_findClassId;
+		// Map utilities
+		jclass    m_mapClass;
 		jmethodID m_mapEmptyId;
 		jmethodID m_mapMergeId;
 		jmethodID m_mapGetId;
@@ -74,12 +89,12 @@ OnyxNative *g_onyx;
 
 JNIEXPORT JNIEnv* JNICALL onyx_getJNIEnv();
 JNIEXPORT jclass  JNICALL onyx_getClass(const char* pFqClassName);
-JNIEXPORT jclass  JNICALL onyx_getCurrentClass();
+JNIEXPORT jobject JNICALL onyx_getInstance();
 
 /**
 * NOTE: jmethodID's have full runtime scope and can be re-used.
 */
-JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl);
+JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl, bool isStatic);
 
 // MapFns -----------------------------------------------------
 //

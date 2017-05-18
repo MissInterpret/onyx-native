@@ -21,6 +21,18 @@ public class PassFn extends NativeOnyxFn {
 		super(m);
 	}
 
+
+
+	public static void testStatic() {
+		System.out.println("PassFn::testStatic> called");
+	}
+
+	public void testInst() {
+		System.out.println("PassFn::testInst> called");
+	}
+
+
+
 	/**
 	 * Extended abstract method from NativeOnyxFn required by every 
 	 * subclass of NativeOnyxFn.

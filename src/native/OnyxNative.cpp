@@ -12,28 +12,41 @@ using namespace std;
 // Cnstr/Destr ----------------------------------
 //
 
-OnyxNative::OnyxNative (JNIEnv *env, jclass clazz) {
+OnyxNative::OnyxNative (JNIEnv *env, jobject obj) {
 
 	m_env = env;
 
-	cerr << "OnyxNative::OnyxNative> called, m_env=" << m_env << endl;
-
-	// Hold on to the class as a global
-	// reference for use with class-specific
-	// caching classloader
+	// Hold on to the object as a global
+	// reference for use with callbacks
 	//
-	m_instClass = (jclass) env->NewGlobalRef(clazz);
-	m_findClassId = env->GetStaticMethodID(m_instClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+	m_instObj = (jobject) env->NewGlobalRef(obj);
+
+	jclass mc = env->FindClass("org/onyxplatform/api/java/utils/MapFns");
+	m_mapClass = (jclass) env->NewGlobalRef(mc);
+
+	std::string msg = "OnyxNative::OnyxNative> failed to find MapFns";
+	checkAndThrow(msg);
 }
 
 OnyxNative::~OnyxNative () {
-	cout << "OnyxNative::~OnyxNative> deleting global class ref" << endl;
-	m_env->DeleteGlobalRef(m_instClass);
-	m_instClass = NULL;
-	m_findClassId = NULL;
+	cout << "OnyxNative::~OnyxNative> deleting global refs" << endl;
+	m_env->DeleteGlobalRef(m_instObj);
+	m_env->DeleteGlobalRef(m_mapClass);
+	m_instObj = NULL;
+	m_mapClass = NULL;
 	m_env = NULL;
 }
 
+// Utils ---------------------------------------
+//
+
+void OnyxNative::checkAndThrow(std::string msg) {
+	if (m_env->ExceptionCheck()) {
+		cout << "OnyxNative::checkAndThrow> msg=" << msg << endl;
+	   	jclass Exception = m_env->FindClass("java/lang/Exception");
+	   	m_env->ThrowNew(Exception,msg.c_str());
+	}
+}
 
 // Accessors for runtime -----------------------
 // 
@@ -42,34 +55,33 @@ JNIEnv* OnyxNative::getEnv () {
 	return m_env;
 }
 
-jclass OnyxNative::getCurrentClass() {
-	return m_instClass;
+jobject OnyxNative::getInstance() {
+	return m_instObj;
 }
 
 jclass OnyxNative::getClass(std::string className) {
-
-	// Use our instance's classloader affordances.
-	// This ensures that whatever classes are 
-	// loaded as dependencies during runtime 
-	// can be unloaded once the backing instance
-	// is released.
-	// 
-	cout << "OnyxNative::getClasss> className=" << className << endl;
-	cout << "OnyxNative::getClasss> m_inst=" << m_instClass << endl;
-	cout << "OnyxNative::getClasss> m_findClassId=" << m_findClassId << endl;
-	return (jclass) m_env->CallStaticObjectMethod(m_instClass, m_findClassId, className.c_str());
+	jclass reqc = m_env->FindClass(className.c_str());
+	std::string msg = "getClass> failed (" + className + ")";
+	checkAndThrow(msg);
+	return reqc;
 }
 
 /**
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
-jmethodID OnyxNative::getMethod(std::string clazz, std::string name, std::string decl) {
-	cout << "OnyxNative::getMethod> clazz=" << clazz << endl;
-	cout << "OnyxNative::getMethod> name=" << name << endl;
-	cout << "OnyxNative::getMethod> decl=" << decl << endl;
-	jclass c = getClass(clazz);
-	cout << "OnyxNative::getMethod> c=" << c << endl;
-	return m_env->GetMethodID(c, name.c_str(), decl.c_str());
+jmethodID OnyxNative::getMethod(jclass clazz, std::string name, std::string decl, bool isStatic) {
+
+	jmethodID id = NULL;
+	if (isStatic) {
+		id =  m_env->GetStaticMethodID(clazz, name.c_str(), decl.c_str());
+	}
+	else {
+		id =  m_env->GetMethodID(clazz, name.c_str(), decl.c_str());
+	}
+
+	std::string msg = "getMethod> failed (name=" + name + ") (decl=" + decl + ")";
+	checkAndThrow(msg);
+	return id;
 }
 
 jstring OnyxNative::toJavaString(std::string s) {
@@ -81,18 +93,29 @@ jstring OnyxNative::toJavaString(std::string s) {
 // 
 
 jobject OnyxNative::init (jobject mapObj) {
+	
+	m_mapEmptyId = getMethod(m_mapClass, "emptyMap", "()Lclojure/lang/IPersistentMap;", true);
+	std::string msg = "OnyxNative::init> emptyMap failed )";
+	checkAndThrow(msg);
 
-	m_mapEmptyId = getMethod("org/onyxplatform/api/java/utils/MapFns", "emptyMap", "()Lclojure/lang/IPersistentMap;");
+	m_mapMergeId = getMethod(m_mapClass, "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;", true);
+	msg = "OnyxNative::init> merge failed )";
+	checkAndThrow(msg);
 
-	//m_mapMergeId = getMethod("org/onyxplatform/api/java/utils/MapFns", "merge", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;");
+	m_mapGetId = getMethod(m_mapClass, "get", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Ljava/lang/Object;", true);
+	msg = "OnyxNative::init> get failed )";
+	checkAndThrow(msg);
 
-	//m_mapGetId = getMethod("org/onyxplatform/api/java/utils/MapFns", "get", "(Lclojure/lang/IPersistentMap;Lclojure/lang/IPersistentMap)Lclojure/lang/IPersistentMap;");
+	m_mapAssocId = getMethod(m_mapClass, "assoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;", true);
+	msg = "OnyxNative::init> assoc failed )";
+	checkAndThrow(msg);
 
-	//m_mapAssocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "assoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;");
-
-	//m_mapDissocId = getMethod("org/onyxplatform/api/java/utils/MapFns", "dissoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;");
+	m_mapDissocId = getMethod(m_mapClass, "dissoc", "(Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;", true);
+	msg = "OnyxNative::init> dissoc failed )";
+	checkAndThrow(msg);
 
 	// Assoc in a success value?
+	
 	return mapObj;
 }
 
@@ -101,13 +124,11 @@ jobject OnyxNative::init (jobject mapObj) {
 //
 
 jobject OnyxNative::emptyMap() {
-	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
-	return m_env->CallStaticObjectMethod(mapClass, m_mapEmptyId);
+	return m_env->CallStaticObjectMethod(m_mapClass, m_mapEmptyId);
 }
 
 jobject OnyxNative::merge(jobject a, jobject b) {
-	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
-	return m_env->CallStaticObjectMethod(mapClass, m_mapMergeId, a, b);
+	return m_env->CallStaticObjectMethod(m_mapClass, m_mapMergeId, a, b);
 }
 
 
@@ -115,9 +136,8 @@ jobject OnyxNative::merge(jobject a, jobject b) {
 	// 	
 	
 jobject OnyxNative::getObj(jobject ipmap, std::string key) {
-	jclass mapClass = getClass("org/onyxplatform/api/java/utils/MapFns");
 	jstring keyStr = toJavaString(key);
-	return m_env->CallStaticObjectMethod(mapClass, m_mapGetId, ipmap, keyStr); 
+	return m_env->CallStaticObjectMethod(m_mapClass, m_mapGetId, ipmap, keyStr); 
 }
 
 int OnyxNative::getInt(jobject ipmap, std::string key) {
@@ -202,9 +222,8 @@ std::string OnyxNative::getStr(jobject ipmap, std::string key){
 	// Assoc ------------------------
 	//
 jobject OnyxNative::assocObj(jobject ipmap, std::string key, jobject value) {
-	jclass mapClass = getClass("org.onyxplatform.api.java.utils.MapFns");
 	jstring keyStr = toJavaString(key);
-	return m_env->CallStaticObjectMethod(mapClass, m_mapAssocId, ipmap, keyStr, value);
+	return m_env->CallStaticObjectMethod(m_mapClass, m_mapAssocId, ipmap, keyStr, value);
 }
 
 jobject OnyxNative::assocInt(jobject ipmap, std::string key, int value) {
@@ -249,9 +268,8 @@ jobject OnyxNative::assocStr(jobject ipmap, std::string key, std::string value) 
 	// Dissoc ------------------------
 	//
 jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
-	jclass mapClass = getClass("org.onyxplatform.api.java.utils.MapFns");
 	jstring keyStr = toJavaString(key);
-	return m_env->CallStaticObjectMethod(mapClass, m_mapDissocId, ipmap, keyStr);
+	return m_env->CallStaticObjectMethod(m_mapClass, m_mapDissocId, ipmap, keyStr);
 }
 
 
@@ -259,14 +277,15 @@ jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
 //
 
 /*
- * Class:     org_onyxplatform_api_java_instance_OnyxNative
+ * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
  * Method:    initNative
- * Signature: (Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;
+ * Signature: (Ljava/lang/Object;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;
  */
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
-  (JNIEnv *env, jclass clazz, jobject mapObj) 
+  (JNIEnv *env, jclass, jobject instObj, jobject mapObj)
 {
-	g_onyx = new OnyxNative(env, clazz);
+	jclass c = env->GetObjectClass(instObj);
+	g_onyx = new OnyxNative(env, c);
 	return g_onyx->init(mapObj);
 }
 
@@ -296,9 +315,9 @@ JNIEXPORT JNIEnv* JNICALL onyx_getJNIEnv() {
 	}
 }
 
-JNIEXPORT jclass JNICALL onyx_getCurrentClass() {
+JNIEXPORT jobject JNICALL onyx_getInstance() {
 	if (g_onyx != NULL) {
-		return g_onyx->getCurrentClass();
+		return g_onyx->getInstance();
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
@@ -318,12 +337,12 @@ JNIEXPORT jclass JNICALL onyx_getClass(const char* pFqClassName) {
 /**
  * NOTE: jmethodID's have full runtime scope and can be re-used.
  */
-JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl) {
+JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, const char* decl, bool isStatic) {
 	if (g_onyx != NULL) {
-		std::string cl = clazz;
+		jclass cl = onyx_getClass(clazz);
 		std::string n = name;
 		std::string d = decl;
-		return g_onyx->getMethod(cl, n, d);
+		return g_onyx->getMethod(cl, n, d, isStatic);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;

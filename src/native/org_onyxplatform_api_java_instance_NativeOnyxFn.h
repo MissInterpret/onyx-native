@@ -7,13 +7,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 /*
  * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
  * Method:    initNative
- * Signature: (Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;
+ * Signature: (Ljava/lang/Object;Lclojure/lang/IPersistentMap;)Lclojure/lang/IPersistentMap;
  */
 JNIEXPORT jobject JNICALL Java_org_onyxplatform_api_java_instance_NativeOnyxFn_initNative
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
