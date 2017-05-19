@@ -21,15 +21,15 @@ public class GetFn extends NativeOnyxFn {
 	protected native int getInt(IPersistentMap m,String key);
 	protected native float getFloat(IPersistentMap m, String key);
 	protected native double getDouble(IPersistentMap m, String key);
+	protected native long getLong(IPersistentMap m, String key);
 	protected native boolean getBool(IPersistentMap m, String key);
 	protected native String getStr(IPersistentMap m, String key);
-	//protected native Object getKeyword(IPersistentMap m, String key);
 
 	// TODO: Figure out how to test a keyword object 
 	//       requires addition of keyword assoc affordances
 	//       in onyx-java
 	//
-	protected native Object getKeyword(IPersistentMap m, String key);
+	//protected native Object getKeyword(IPersistentMap m, String key);
 
 	/**
 	 * Expects the passed map to be populated
@@ -42,6 +42,7 @@ public class GetFn extends NativeOnyxFn {
 	 *  :int 1
 	 *  :float 1.1
 	 *  :double 2.2
+	 *  :long 3
 	 *  :bool true
 	 *  :str "TEST"
 	 *  }
@@ -51,24 +52,51 @@ public class GetFn extends NativeOnyxFn {
 	 */
 	public Object consumeSegment(IPersistentMap m) {
 
-		boolean passed = false;
+		IPersistentMap result = MapFns.emptyMap();
+		IPersistentMap failed = MapFns.assoc(result, "passed", new Boolean(false));
 
 		IPersistentMap map = getObj(m, "object");
+		if (!MapFns.isEmpty(map)) {
+			return failed;
+		}
+
 		int i = getInt(m, "int");
+		if (i != 1) {
+			System.out.println("getInt> failed. i=" + i);
+			return failed;
+		}
+
 		float f = getFloat(m, "float");
+		if (f != 1.1f) {
+			System.out.println("getInt> failed. f=" + f);
+			return failed;
+		}
+
+		long l = getLong(m, "long");
+		if (l != 3) {
+			System.out.println("getLong> failed.");
+			return failed;
+		}
+
 		double d = getDouble(m, "double");
-		boolean b = getBool(m, "boolean");
-		String s = getStr(m, "string");
+		if (d != 2.0d) {
+			return failed;
+		}
+
+		boolean b = getBool(m, "bool");
+		if (!b) {
+			System.out.println("getInt> failed. b=" + b);
+			return failed;
+		}
+
+		String s = getStr(m, "str");
+		if (s != "TEST") {
+			System.out.println("getStr> failed. s=" + s);
+			return failed;
+		}
+
 		//Object kw = getKeyword(m, "keyword");
 
-		IPersistentMap result = MapFns.emptyMap();
-		if (passed) {
-			Boolean r = new Boolean(true);
-			return result;
-		}
-		else {
-			Boolean r = new Boolean(true);
-			return result;
-		}
+		return MapFns.assoc(result, "passed", new Boolean(true));
 	}
 }

@@ -7,7 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 /*
  * Class:     org_onyxplatform_api_java_instance_NativeOnyxFn
  * Method:    initNative

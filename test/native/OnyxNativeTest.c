@@ -144,3 +144,101 @@ JNIEXPORT jobject JNICALL Java_onyxplatform_test_AssocFn_assocKeyword
 }
 
 
+/** GetFn ----------------------------------------- */
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getObj
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Lclojure/lang/IPersistentMap;
+ */
+JNIEXPORT jobject JNICALL Java_onyxplatform_test_GetFn_getObj
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jobject result = onyx_getObj(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getInt
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_onyxplatform_test_GetFn_getInt
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jint result = onyx_getInt(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getFloat
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)F
+ */
+JNIEXPORT jfloat JNICALL Java_onyxplatform_test_GetFn_getFloat
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jfloat result = onyx_getFloat(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getDouble
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)D
+ */
+JNIEXPORT jdouble JNICALL Java_onyxplatform_test_GetFn_getDouble
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jdouble result = onyx_getDouble(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getLong
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_onyxplatform_test_GetFn_getLong
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jlong result = onyx_getLong(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getBool
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_onyxplatform_test_GetFn_getBool
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	jboolean result = onyx_getBool(m, k);
+	(*env)->ReleaseStringUTFChars(env, key, k);
+	return result;
+}
+
+/*
+ * Class:     onyxplatform_test_GetFn
+ * Method:    getStr
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_onyxplatform_test_GetFn_getStr
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+	const char *k = (*env)->GetStringUTFChars(env, key, 0);
+	return onyx_getStr(m, k);
+}
+

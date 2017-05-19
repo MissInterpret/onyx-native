@@ -41,6 +41,14 @@ JNIEXPORT jdouble JNICALL Java_onyxplatform_test_GetFn_getDouble
 
 /*
  * Class:     onyxplatform_test_GetFn
+ * Method:    getLong
+ * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_onyxplatform_test_GetFn_getLong
+  (JNIEnv *, jobject, jobject, jstring);
+
+/*
+ * Class:     onyxplatform_test_GetFn
  * Method:    getBool
  * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Z
  */
@@ -53,14 +61,6 @@ JNIEXPORT jboolean JNICALL Java_onyxplatform_test_GetFn_getBool
  * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_onyxplatform_test_GetFn_getStr
-  (JNIEnv *, jobject, jobject, jstring);
-
-/*
- * Class:     onyxplatform_test_GetFn
- * Method:    getKeyword
- * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;)Ljava/lang/Object;
- */
-JNIEXPORT jobject JNICALL Java_onyxplatform_test_GetFn_getKeyword
   (JNIEnv *, jobject, jobject, jstring);
 
 #ifdef __cplusplus

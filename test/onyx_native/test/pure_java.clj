@@ -64,6 +64,23 @@
       (.shutdown testObject)
       (is (= expected outputs))))
 
+(deftest get-map-test
+    (let [testObject (SingleJavaTest. 
+                       "onyx-env.edn" 
+                       SingleJavaTest/GET_FN "OnyxNativeTest")
+          inputs [{:object {}
+                   :int (int 1)
+                   :float (float 1.1)
+                   :double (double 2.0)
+                   :long (long 3.3)
+                   :bool true
+                   :str "TEST"}]
+          expected {:out [{:passed true} :done]}
+          outputs (.runJobCollectOutputs testObject inputs)]
+      (println "assoc-map-test> outputs=" outputs)
+      (.releaseAll testObject)
+      (.shutdown testObject)
+      (is (= expected outputs))))
 
 
 

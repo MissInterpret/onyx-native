@@ -204,16 +204,15 @@ bool OnyxNative::getBool(jobject ipmap, std::string key) {
 	}
 }
 
-std::string OnyxNative::getStr(jobject ipmap, std::string key){
+jstring OnyxNative::getStr(jobject ipmap, std::string key){
 	jobject v = getObj(ipmap, key);
 	jclass clazz = getClass("java/lang/String");
 	if (m_env->IsInstanceOf(v, clazz) == JNI_TRUE)
 	{
-		// Pull the UTF string
-		return "";
+		return (jstring)v;
 	}
 	else {
-		return "ERROR";
+		return NULL;
 	}
 }
 
@@ -352,6 +351,17 @@ JNIEXPORT jmethodID JNICALL onyx_getMethod(const char* clazz, const char* name, 
 	}
 }
 
+JNIEXPORT jstring JNICALL onyx_toJavaString(const char* s) {
+	if (g_onyx != NULL) {
+		std::string ss = s;
+		return g_onyx->toJavaString(ss);
+	} else {
+		// NOTE: This is in case of severe lib load failure
+		return NULL;
+	}
+}
+
+
 // MapFns -------------------------------------------------
 //
 		
@@ -436,10 +446,10 @@ JNIEXPORT bool 	JNICALL onyx_getBool(jobject ipmap, const char* key) {
 	}
 }
 
-JNIEXPORT const char* JNICALL onyx_getStr(jobject ipmap, const char* key) {
+JNIEXPORT jstring JNICALL onyx_getStr(jobject ipmap, const char* key) {
 	if (g_onyx != NULL) {
 		std::string k = key;
-		return (g_onyx->getStr(ipmap, k)).c_str();
+		return g_onyx->getStr(ipmap, k);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;
