@@ -7,9 +7,6 @@
 
 #ifdef __cplusplus
 
-// TODO: I believe you should wrap this with ifdef cpplus so 
-//       its inclusion into C code doesn't cause compiler warnings
-
 #include <iostream>
 #include <string>
 using namespace std;
@@ -73,7 +70,6 @@ class OnyxNative {
 		jobject assocDouble(jobject ipmap, std::string key, double value);
 		jobject assocBool(jobject ipmap, std::string key, bool value);
 		jobject assocStr(jobject ipmap, std::string key, std::string value);
-		jobject assocKeyword(jobject ipmap, std::string key, std::string value);
 
 			// Dissoc
 		jobject dissoc(jobject ipmap, std::string key);
@@ -153,13 +149,13 @@ JNIEXPORT jstring 	JNICALL onyx_getStr(jobject ipmap, const char* key);
 *       return a value of 2.200000047683716
 */
 JNIEXPORT jobject 	JNICALL onyx_assocDouble(jobject ipmap, const char* key, double value);
+
 JNIEXPORT jobject 	JNICALL onyx_assocObj(jobject ipmap, const char* key, jobject value);
 JNIEXPORT jobject 	JNICALL onyx_assocInt(jobject ipmap, const char* key, int value);
 JNIEXPORT jobject 	JNICALL onyx_assocLong(jobject ipmap, const char* key, long value);
 JNIEXPORT jobject 	JNICALL onyx_assocFloat(jobject ipmap, const char* key, float value);
 JNIEXPORT jobject 	JNICALL onyx_assocBool(jobject ipmap, const char* key, bool value);
 JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, const char* value);
-JNIEXPORT jobject 	JNICALL onyx_assocKeyword(jobject ipmap, const char* key, const char* value);
 
 #ifdef __cplusplus
 }

@@ -25,12 +25,6 @@ public class GetFn extends NativeOnyxFn {
 	protected native boolean getBool(IPersistentMap m, String key);
 	protected native String getStr(IPersistentMap m, String key);
 
-	// TODO: Figure out how to test a keyword object 
-	//       requires addition of keyword assoc affordances
-	//       in onyx-java
-	//
-	//protected native Object getKeyword(IPersistentMap m, String key);
-
 	/**
 	 * Expects the passed map to be populated
 	 * with the following key-value pairs
@@ -94,8 +88,6 @@ public class GetFn extends NativeOnyxFn {
 			System.out.println("getStr> failed. s=" + s);
 			return failed;
 		}
-
-		//Object kw = getKeyword(m, "keyword");
 
 		return MapFns.assoc(result, "passed", new Boolean(true));
 	}
