@@ -137,6 +137,7 @@ Implementation
 #include <jni.h>
 
 #include "OnyxNative.h"
+#include "onyxplatform_test_DissocFn.h"
 
 JNIEXPORT jobject JNICALL Java_onyxplatform_test_DissocFn_dissoc
   (JNIEnv *env, jobject inst, jobject m, jstring key)
@@ -160,7 +161,7 @@ like logging, etc.<br>
 
 #### VM 
 
-Using JNI functions require some combination of paramters that include a jclass, and often a jmethodID. 
+Using JNI functions require some combination of parameters that include a jclass, and often a jmethodID. 
 Obtaining them from fully-qualified class name requires stereotyped boilerplate. These functions wrap 
 this functionality:
 
@@ -245,6 +246,14 @@ JNIEXPORT jobject       onyx_dissoc(jobject ipmap, const char*);
 
 
 ### Memory Management Notes 
-Outline how library unloading works and its implications for memory held by native libraries.<br>
+
+Memory management is primarily driven via the affordance offered by the *loadNativeResources* 
+method of *NativeOnyxFn* which calls the C function releaseNative(). The underlying 
+ClassLoader that was used to load the library is de-referenced once the release functions 
+are called.<br>
 <br>
 
+#### The Custom ClassLoader
+Java libraries can only be unloaded when the class in which loadLibrary is called is no longer reachable. Typical uses of the System's findClass static function ensures that the class is always referenced.<br>
+<br>
+The *Loader* class currently defaults to loading all classes via the current *Thread* context's clssloader. The implementation which caches classes results in a problem casting classes later so its currently commented out.
