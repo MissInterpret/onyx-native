@@ -107,14 +107,12 @@ when over-riding *consumeSegment*
 
 A simple implementation which proxies to the native map utility function:<br>
 
-Header
+Implementation 
 ```
 #include <jni.h>
 
 #include "OnyxNative.h"
-```
-Implementation
-```
+
 JNIEXPORT jobject JNICALL Java_onyxplatform_test_DissocFn_dissoc
   (JNIEnv *env, jobject inst, jobject m, jstring key)
 {
