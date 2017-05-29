@@ -249,7 +249,7 @@ JNIEXPORT jobject       onyx_dissoc(jobject ipmap, const char*);
 
 Memory management is primarily driven via the affordance offered by the *loadNativeResources* 
 method of *NativeOnyxFn* which calls the C function releaseNative(). The underlying 
-ClassLoader that was used to load the library is de-referenced once the release functions 
+ClassLoader that was used to load the library is also de-referenced once the release functions 
 are called.<br>
 <br>
 
