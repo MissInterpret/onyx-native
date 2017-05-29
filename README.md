@@ -107,7 +107,6 @@ when over-riding *consumeSegment*
 
 A simple implementation which proxies to the native map utility function:<br>
 
-Implementation 
 ```
 #include <jni.h>
 
