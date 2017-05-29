@@ -132,17 +132,6 @@ JNIEXPORT jobject JNICALL Java_onyxplatform_test_AssocFn_assocStr
 	return result;
 }
 
-/*
- * Class:     onyxplatform_test_AssocFn
- * Method:    assocKeyword
- * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;Ljava/lang/Object;)Lclojure/lang/IPersistentMap;
- */
-JNIEXPORT jobject JNICALL Java_onyxplatform_test_AssocFn_assocKeyword
-  (JNIEnv *env, jobject inst, jobject m, jstring key, jobject obj)
-{
-	return m;
-}
-
 
 /** GetFn ----------------------------------------- */
 

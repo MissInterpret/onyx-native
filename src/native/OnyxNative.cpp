@@ -263,11 +263,6 @@ jobject OnyxNative::assocStr(jobject ipmap, std::string key, std::string value) 
 	return assocObj(ipmap, key, toJavaString(value));
 }
 
-jobject OnyxNative::assocKeyword(jobject ipmap, std::string key, std::string value) {
-	//TODO: Add a keyword creation function to the MapFns
-	return NULL;
-}
-
 	// Dissoc ------------------------
 	//
 jobject OnyxNative::dissoc(jobject ipmap, std::string key) {
@@ -524,17 +519,6 @@ JNIEXPORT jobject 	JNICALL onyx_assocStr(jobject ipmap, const char* key, const c
 		std::string k = key;
 		std::string v = value;
 		return g_onyx->assocStr(ipmap, k, v);
-	} else {
-		// NOTE: This is in case of severe lib load failure
-		return NULL;
-	}
-}
-
-JNIEXPORT jobject 	JNICALL onyx_assocKeyword(jobject ipmap, const char* key, const char* value) {
-	if (g_onyx != NULL) {
-		std::string k = key;
-		std::string v = value;
-		return g_onyx->assocKeyword(ipmap, k, v);
 	} else {
 		// NOTE: This is in case of severe lib load failure
 		return NULL;

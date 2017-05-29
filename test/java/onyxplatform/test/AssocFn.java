@@ -56,9 +56,6 @@ public class AssocFn extends NativeOnyxFn {
 		am = assocBool(am, "bool", b);
 
 		String s = "TEST";
-		am = assocStr(am, "str", s);
-
-		Object kw = null;
-		return assocKeyword(am, "kw", kw);
+		return assocStr(am, "str", s);
 	}
 }
