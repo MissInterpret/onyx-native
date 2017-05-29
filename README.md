@@ -7,7 +7,7 @@ native-backed Java objects in an [Onyx Platform](http://onyxplatform.org) workfl
 
 ## Architectural Approach
 
-Onyx-native builds on new features being of [onyx-java](https://github.com/onyx-platform/onyx-java) that provide support for the use of stateful Java instances in a workflow.<br>
+Onyx-native builds on the features of [onyx-java](https://github.com/onyx-platform/onyx-java) that provide support for the use of stateful Java instances in a workflow.<br>
 <br>
 This packages provides a simple and non-invasive matching set of Java and C 
 interfaces that leverage Java's JNI and C++ to enable bootstrapping 
@@ -61,7 +61,7 @@ public class PassFn extends OnyxFn {
 
 ### Using Native-Backed Instances
 
-Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv* <br>
+Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv*
 The following sections demonstrate use of the native-specific features along with the interfaces and utilities at each level of abstraction.<br>
 <br>
 
@@ -85,6 +85,15 @@ As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 You then provide a concrete subclass of *NativeOnyxFn* which provides an addtional static 
 function which bootstraps the backing library and intializes native resources:<br>
 <br>
+```
+public class DissocFn extends NativeOnyxFn {
+
+ protected native IPersistentMap dissoc(IPersistentMap m, String key);
+
+ public Object consumeSegment(IPersistentMap m) {
+   return dissoc(m, "test-key");
+ }
+```
 
 <br>
 Note that *NativeOnyxFn* only provides the means for easy use of native calls and an 
@@ -94,8 +103,18 @@ when over-riding *consumeSegment*
 
 #### Native
 
-Create a nifty native library to use!<br>
+A simple implementation which proxies to the native map utility function:<br>
+
+Header<br>
+```
+#include <jni.h>
+
+#include "OnyxNative.h"
+```
 <br>
+<br>
+Implementation<br>
+
 
 ### Interop Utilities
 
