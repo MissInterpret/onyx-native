@@ -19,4 +19,10 @@
              :dev {:dependencies [[org.clojure/tools.namespace "0.2.11"]]
                    :plugins [[lein-update-dependency "0.1.2"]
                              [lein-pprint "1.1.1"]
-                             [lein-set-version "0.4.1"]] }})
+                             [lein-set-version "0.4.1"]
+                             [lein-javadoc "0.3.0"] ] 
+                   :javadoc-opts  {:package-names ["org.onyxplatform.api.java.instance" 
+                                                   "org.onyxplatform.api.java.utils" 
+                                                   "org.onyxplatform.api.java" 
+                                                   "onyxplatform.test"] 
+                                   :output-dir "docs"}}})

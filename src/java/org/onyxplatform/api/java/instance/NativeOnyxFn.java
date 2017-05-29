@@ -5,10 +5,13 @@ import clojure.lang.IPersistentMap;
 import org.onyxplatform.api.java.utils.MapFns;
 import org.onyxplatform.api.java.instance.Loader;
 
-public abstract class NativeOnyxFn extends OnyxFn {
 
-	// Class ----------------------------------------
-	//
+/**
+ *  NativeOnyxFn is the base class for all User type classes that a User wishes
+ *  to use as an object instance as a task within an Onyx workflow. 
+ *  User classes must extend this NativeOnyxFn, and implement the consumeSegment method.
+ */  
+public abstract class NativeOnyxFn extends OnyxFn {
 
 	protected static String libraryName;
 	protected static boolean libLoaded = false;
@@ -18,20 +21,19 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	protected static native void releaseNative();
 
 
-	// Instance -------------------------------------
-	//
+	public NativeOnyxFn(IPersistentMap m) {
+		super(m);
+	}
 
 	/**
-	 * A proxy that is instance-bound which 
-	 * loads the underlying native library if it hasn't
-	 * already been loaded for this class.
-	 *
-	 * This maps one instance to one backing classloader
-	 * that is tied to this instance. Onyx-java creates
-	 * a unique instance that contains its own classloader.
-	 *
-	 * The static find-class 
-	 */
+ 	* Loads the native library. 
+	* <p>
+	* This operation is per-instance and idempotent.
+	*
+ 	* @param  libName The library name to load 
+ 	* @param  args The arguments to use during loading
+ 	* @return      The loading response map
+ 	*/
 	public IPersistentMap loadNativeResources(String libName, IPersistentMap args) 
 		throws java.lang.UnsatisfiedLinkError
 	{
@@ -45,17 +47,13 @@ public abstract class NativeOnyxFn extends OnyxFn {
 	}
 
 	/**
-	 * Releases all native VM resources so that
-	 * it can be garbage collected.
-	 */
+ 	* Deletes the native resources associated
+	* with this instance.
+ 	*/
 	public void releaseNativeResources() {
 		if (libLoaded) {
 			releaseNative();
 			libLoaded = false;
 		}
-	}
-
-	public NativeOnyxFn(IPersistentMap m) {
-		super(m);
 	}
 }

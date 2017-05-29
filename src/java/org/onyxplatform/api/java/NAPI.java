@@ -3,6 +3,11 @@ package org.onyxplatform.api.java;
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
 
+/**
+ *  Simple public facing user API mirroring all functionality of underlaying
+ *  onyx API. This is a static utility class that should not be used as an
+ *  Object, but should instead be used on objects.
+ */ 
 public class NAPI extends API 
 	implements NativeNames
 {

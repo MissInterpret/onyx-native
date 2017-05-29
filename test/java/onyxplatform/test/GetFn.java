@@ -7,9 +7,8 @@ import org.onyxplatform.api.java.instance.OnyxFn;
 import org.onyxplatform.api.java.utils.MapFns;
 
 /**
- * PassFn is a simple test class extending NativeOnyxFn which is used to test
- * a pure java object instance task in an Onyx Job. This tests simple library
- * loading and unloading.
+ * GetFn is a simple test class extending NativeOnyxFn which is used to test
+ * the get map functions.
  */
 public class GetFn extends NativeOnyxFn {
 
@@ -17,20 +16,68 @@ public class GetFn extends NativeOnyxFn {
 		super(m);
 	}
 
+	/**
+ 	* Calls the native getObj implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The object mapped to the keyword
+ 	*/
 	protected native IPersistentMap getObj(IPersistentMap m,String key);
+
+	/**
+ 	* Calls the native getInt implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The int mapped to the keyword
+ 	*/
 	protected native int getInt(IPersistentMap m,String key);
+
+	/**
+ 	* Calls the native getFloat implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The float mapped to the keyword
+ 	*/
 	protected native float getFloat(IPersistentMap m, String key);
+
+	/**
+ 	* Calls the native getDouble implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The double mapped to the keyword
+ 	*/
 	protected native double getDouble(IPersistentMap m, String key);
+
+	/**
+ 	* Calls the native getLong implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The long mapped to the keyword
+ 	*/
 	protected native long getLong(IPersistentMap m, String key);
+
+	/**
+ 	* Calls the native getBool implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The boolean mapped to the keyword
+ 	*/
 	protected native boolean getBool(IPersistentMap m, String key);
+
+	/**
+ 	* Calls the native getStr implementation
+	* @param m The coll
+	* @param key The keyword
+	* @return The String mapped to the keyword
+ 	*/
 	protected native String getStr(IPersistentMap m, String key);
 
 	/**
 	 * Expects the passed map to be populated
 	 * with the following key-value pairs
-	 * that follows the key convention of:
+	 * that follows the key convention of
 	 *
-	 *  :<type>  i.e. :int :float, etc
+	 * :type-name  i.e. :int :float, etc
 	 *
 	 * {:object {}
 	 *  :int 1
@@ -43,6 +90,8 @@ public class GetFn extends NativeOnyxFn {
 	 *
 	 * Returns a map containing:
 	 * {:passed true/false}
+	 * @param m The map to consume
+	 * @return an empty map or a map with ":passed false" 
 	 */
 	public Object consumeSegment(IPersistentMap m) {
 

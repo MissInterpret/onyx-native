@@ -13,6 +13,16 @@ import org.onyxplatform.api.java.Job;
 
 import org.onyxplatform.api.java.utils.MapFns;
 
+/**
+ * NativeBindUtils is a static utility class designed to work with User Classes
+ * which extend the OnyxFn abstract class which are backed by native 
+ * libraries.
+ * This utility provides a method which can add an object instance that is
+ * derived from a user class to a job catalog.
+ * It also provides methods related to memory management of these catalog objects,
+ * allowing users to manually unload the instances when they are no longer used
+ * by the job.
+ */ 
 public class NativeBindUtils 
 	extends BindUtils
 	implements OnyxNames, NativeNames

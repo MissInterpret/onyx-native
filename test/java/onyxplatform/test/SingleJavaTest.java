@@ -29,9 +29,11 @@ public class SingleJavaTest extends JobBuilder {
 	private String libName;
 
     /**
-     * Constructs a simple Job test that can run a pure java function, loaded
-     * from an EDN file which is passed as the only parameter.
+     * Constructs a simple Job test that can run a pure java function 
+     * backed by the library name. 
      * @param  onyxEnvConfig path to the EDN file specifying how to set up the job
+     * @param  className The fully qualified class name to use 
+     * @param  libName The name of the backing library 
      */
 	public SingleJavaTest(String onyxEnvConfig, String className, String libName) {
 		super(onyxEnvConfig, 5, 50);
