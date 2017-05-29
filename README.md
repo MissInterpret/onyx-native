@@ -81,6 +81,11 @@ native-backed instance at runtime.<br>
 As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 <br>
 
+```
+  Catalog c = job.getCatalog();
+  NativeBindUtils.addFn(c, "pass", batchSize(), batchTimeout(),
+                        className, MapFns.emptyMap(), libName, MapFns.emptyMap()); 
+```
 <br>
 You then provide a concrete subclass of *NativeOnyxFn* which provides an addtional static 
 function which bootstraps the backing library and intializes native resources:
