@@ -5,6 +5,10 @@
 The onyx-native package was designed to support the use of stateful,
 native-backed Java objects in an [Onyx Platform](http://onyxplatform.org) workflow.
 
+## Build Status
+
+CircleCI Tests:  [![CircleCI](https://circleci.com/gh/MissInterpret/onyx-native.svg?style=svg)](https://circleci.com/gh/MissInterpret/onyx-native)
+
 ## Architectural Approach
 
 Onyx-native builds on the features of [onyx-java](https://github.com/onyx-platform/onyx-java) that provide support for the use of stateful Java instances in a workflow.<br>
