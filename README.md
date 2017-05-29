@@ -83,8 +83,8 @@ As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 
 <br>
 You then provide a concrete subclass of *NativeOnyxFn* which provides an addtional static 
-function which bootstraps the backing library and intializes native resources:<br>
-<br>
+function which bootstraps the backing library and intializes native resources:
+
 ```
 public class DissocFn extends NativeOnyxFn {
 
@@ -94,26 +94,20 @@ public class DissocFn extends NativeOnyxFn {
    return dissoc(m, "test-key");
  }
 ```
-
-<br>
 Note that *NativeOnyxFn* only provides the means for easy use of native calls and an 
 assurence of runtime consistency. Your concrete subclass is not forced to use any native methods 
 when over-riding *consumeSegment*
-<br>
 
 #### Native
 
 A simple implementation which proxies to the native map utility function:<br>
 
-Header<br>
+Header
 ```
 #include <jni.h>
 
 #include "OnyxNative.h"
 ```
-<br>
-<br>
-Implementation<br>
 
 
 ### Interop Utilities
