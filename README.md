@@ -7,8 +7,7 @@ native-backed Java objects in an [Onyx Platform](http://onyxplatform.org) workfl
 
 ## Architectural Approach
 
-Onyx-native builds on new features being added to [onyx-java](https://github.com/RBerkheimer/onyx-java) that 
-provide support for the use of stateful Java instances in a workflow.<br>
+Onyx-native builds on new features being of [onyx-java](https://github.com/onyx-platform/onyx-java) that provide support for the use of stateful Java instances in a workflow.<br>
 <br>
 This packages provides a simple and non-invasive matching set of Java and C 
 interfaces that leverage Java's JNI and C++ to enable bootstrapping 
@@ -39,7 +38,7 @@ int batchTimeout = 50;
 BindUtils.addFn(catalog, batchSize, batchTimeout, fullyQualifiedName, ctrArgs);
 ```
 <br>
-Which loads a pure Java class derived from *OnyxFn*<br>
+Which loads a pure Java class derived from *OnyxFn*
 
 ```
 package onyxplatform.test;
@@ -62,8 +61,7 @@ public class PassFn extends OnyxFn {
 
 ### Using Native-Backed Instances
 
-Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv*. <br>
-<br>
+Onyx-native provides additional support for native-backed instances using a parallel set of utility functions and native-specific versions of the core API and runtime utility class *OnyxEnv* <br>
 The following sections demonstrate use of the native-specific features along with the interfaces and utilities at each level of abstraction.<br>
 <br>
 
@@ -76,7 +74,7 @@ Onyx-native parallels onyx-java's approach offering additional native affordance
 
 Onyx-native follows the same approach that onyx-java does (shown above) with additions to 
 specife the library along with initialization arguments. These are used along with native-specific 
-versions of the core API (*NAPI*) and *OnyxEnv* (*NativeOnyxEnv*) to load and bootstrap your 
+versions of the core API *NAPI* and *NativeOnyxEnv* to load and bootstrap your 
 native-backed instance at runtime.<br>
 
 <br>
@@ -84,14 +82,14 @@ As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 <br>
 
 <br>
-You then provide a concrete subclass of *NativeOnyxFn*. *NativeOnyxFn* provides an addtional static 
+You then provide a concrete subclass of *NativeOnyxFn* which provides an addtional static 
 function which bootstraps the backing library and intializes native resources:<br>
 <br>
 
 <br>
 Note that *NativeOnyxFn* only provides the means for easy use of native calls and an 
 assurence of runtime consistency. Your concrete subclass is not forced to use any native methods 
-when over-riding *consumeSegment*.
+when over-riding *consumeSegment*
 <br>
 
 #### Native
@@ -197,8 +195,4 @@ JNIEXPORT jobject       onyx_dissoc(jobject ipmap, const char*);
 ### Memory Management Notes 
 Outline how library unloading works and its implications for memory held by native libraries.<br>
 <br>
-
-### Expected initial publication Summer 2017, depends on ongoing work to upgrade [onyx-java](https://github.com/RBerkheimer/onyx-java)
-
-
 
