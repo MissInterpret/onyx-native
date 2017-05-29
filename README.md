@@ -84,7 +84,7 @@ As before, you use *NativeBindUtils* to generate a catalog entry:<br>
 ```
   Catalog c = job.getCatalog();
   NativeBindUtils.addFn(c, "pass", batchSize(), batchTimeout(),
-                        className, MapFns.emptyMap(), libName, MapFns.emptyMap()); 
+                        className, MapFns.emptyMap(), "SomeLibrary", MapFns.emptyMap()); 
 ```
 <br>
 You then provide a concrete subclass of *NativeOnyxFn* which provides an addtional static 
@@ -113,7 +113,18 @@ Header
 
 #include "OnyxNative.h"
 ```
+Implementation
+```
+JNIEXPORT jobject JNICALL Java_onyxplatform_test_DissocFn_dissoc
+  (JNIEnv *env, jobject inst, jobject m, jstring key)
+{
+  const char *k = (*env)->GetStringUTFChars(env, key, 0);
+  jobject result = onyx_dissoc(m, k);
+  (*env)->ReleaseStringUTFChars(env, key, k);
+  return result;
+}
 
+```
 
 ### Interop Utilities
 
