@@ -8,9 +8,9 @@
   (contains? instance :native-instance/lib-name))
 
 (defn instance [id fq-class-name ctr-args lib-name init-args]
-  (let [^NativeOnyxFn i (b/instance id fq-class-name ctr-args)]
+  (let [i (b/instance id fq-class-name ctr-args)]
     ; aggressive init as it is idempotent
-    (.loadNativeResources i lib-name init-args) 
+    (.loadNativeResources i lib-name init-args)
     i))
 
 (defn method [id fq-class-name ctr-args lib-name init-args segment]
@@ -19,8 +19,8 @@
 
 (defn release [task]
   (let [id (b/task-id task)
-        ^NativeOnyxFn inst (b/instance id) ] 
-    (if-not (nil? inst) 
+        inst (b/instance id) ]
+    (if-not (nil? inst)
       (do
         (.releaseNativeResources inst)
         (b/release task)))))
