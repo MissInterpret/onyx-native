@@ -4,8 +4,8 @@
   (:require [clojure.test :refer [deftest is]]))
 
 (deftest pass-java-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/PASS_FN "OnyxNativeTest")
           inputs [{:pass-through "PASSTHROUGH"}]
           expected {:out [{:pass-through "PASSTHROUGH"} :done]}
@@ -15,19 +15,20 @@
       (is (= expected outputs))))
 
 (deftest empty-map-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/EMPTY_FN "OnyxNativeTest")
           inputs [{:pass-through "PASSTHROUGH"}]
           expected {:out [{} :done]}
           outputs (.runJobCollectOutputs testObject inputs) ]
+     (println (System/getProperty "java.library.path"))
       (.releaseAll testObject)
       (.shutdown testObject)
       (is (= expected outputs))))
 
 (deftest merge-map-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/MERGE_FN "OnyxNativeTest")
           inputs [{:pass-through "PASSTHROUGH"}]
           expected {:out [{:pass-through "PASSTHROUGH" :test "A"} :done]}
@@ -37,8 +38,8 @@
       (is (= expected outputs))))
 
 (deftest dissoc-map-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/DISSOC_FN "OnyxNativeTest")
           inputs [{:dissoc "DISSOC"}]
           expected {:out [{} :done]}
@@ -48,8 +49,8 @@
       (is (= expected outputs))))
 
 (deftest assoc-map-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/ASSOC_FN "OnyxNativeTest")
           inputs [{}]
           expected {:out [{:object {}
@@ -65,8 +66,8 @@
       (is (= expected outputs))))
 
 (deftest get-map-test
-    (let [testObject (SingleJavaTest. 
-                       "onyx-env.edn" 
+    (let [testObject (SingleJavaTest.
+                       "onyx-env.edn"
                        SingleJavaTest/GET_FN "OnyxNativeTest")
           inputs [{:object {}
                    :int (int 1)
@@ -81,6 +82,3 @@
       (.releaseAll testObject)
       (.shutdown testObject)
       (is (= expected outputs))))
-
-
-

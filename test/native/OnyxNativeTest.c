@@ -65,7 +65,7 @@ JNIEXPORT jobject JNICALL Java_onyxplatform_test_AssocFn_assocObj
  * Signature: (Lclojure/lang/IPersistentMap;Ljava/lang/String;I)Lclojure/lang/IPersistentMap;
  */
 JNIEXPORT jobject JNICALL Java_onyxplatform_test_AssocFn_assocInt
-  (JNIEnv *env, jobject inst, jobject m, jstring key, jint i) 
+  (JNIEnv *env, jobject inst, jobject m, jstring key, jint i)
 {
 	const char *k = (*env)->GetStringUTFChars(env, key, 0);
 	jobject result = onyx_assocInt(m, k, i);
@@ -230,4 +230,3 @@ JNIEXPORT jstring JNICALL Java_onyxplatform_test_GetFn_getStr
 	const char *k = (*env)->GetStringUTFChars(env, key, 0);
 	return onyx_getStr(m, k);
 }
-

@@ -13,7 +13,7 @@ using namespace std;
 
 class OnyxNative {
 
-	public: 
+	public:
 		OnyxNative(JNIEnv *env, jobject obj);
 		~OnyxNative();
 
@@ -54,8 +54,8 @@ class OnyxNative {
 		float 		getFloat(jobject ipmap, std::string key);
 
 		/**
-		 * NOTE: This does NOT preserve precision. 
-		 *       adding 2.2 to the map, for example will 
+		 * NOTE: This does NOT preserve precision.
+		 *       adding 2.2 to the map, for example will
 		 *       return a value of 2.200000047683716
 		 */
 		double 		getDouble(jobject ipmap, std::string key);
@@ -77,13 +77,13 @@ class OnyxNative {
 
 		// Utils -------------------------
 		//
-		
+
 		void checkAndThrow(std::string msg);
 
 		jstring toJavaString(std::string s);
 
 
-	private: 
+	private:
 		JNIEnv* m_env;
 		jobject m_instObj;
 
@@ -102,7 +102,7 @@ OnyxNative *g_onyx;
 
 #endif
 
-// Runtime accessors 
+// Runtime accessors
 //
 
 JNIEXPORT JNIEnv* JNICALL onyx_getJNIEnv();
@@ -124,11 +124,11 @@ JNIEXPORT jobject 	JNICALL onyx_emptyMap();
 JNIEXPORT jobject 	JNICALL onyx_merge(jobject a, jobject b);
 JNIEXPORT jobject 	JNICALL onyx_dissoc(jobject ipmap, const char* key);
 
-// Get ---------------	
+// Get ---------------
 
 /**
-* NOTE: This does NOT preserve precision. 
-*       adding 2.2 to the map, for example will 
+* NOTE: This does NOT preserve precision.
+*       adding 2.2 to the map, for example will
 *       return a value of 2.200000047683716
 */
 JNIEXPORT double 	JNICALL onyx_getDouble(jobject ipmap, const char* key);
@@ -145,7 +145,7 @@ JNIEXPORT jstring 	JNICALL onyx_getStr(jobject ipmap, const char* key);
 
 /**
 * NOTE: This does NOT preserve precision. 
-*       adding 2.2 to the map, for example will 
+*       adding 2.2 to the map, for example will
 *       return a value of 2.200000047683716
 */
 JNIEXPORT jobject 	JNICALL onyx_assocDouble(jobject ipmap, const char* key, double value);

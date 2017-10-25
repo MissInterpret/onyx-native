@@ -7,5 +7,3 @@ public interface NativeNames {
 
 	public static final String NATIVE_BIND     	= "onyx-native.instance.bind";
 }
-
-

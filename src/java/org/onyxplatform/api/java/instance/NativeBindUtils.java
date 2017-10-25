@@ -15,27 +15,30 @@ import org.onyxplatform.api.java.utils.MapFns;
 
 /**
  * NativeBindUtils is a static utility class designed to work with User Classes
- * which extend the OnyxFn abstract class which are backed by native 
+ * which extend the OnyxFn abstract class which are backed by native
  * libraries.
  * This utility provides a method which can add an object instance that is
  * derived from a user class to a job catalog.
  * It also provides methods related to memory management of these catalog objects,
  * allowing users to manually unload the instances when they are no longer used
  * by the job.
- */ 
-public class NativeBindUtils 
+ */
+public class NativeBindUtils
 	extends BindUtils
 	implements OnyxNames, NativeNames
 {
+
+	protected static IFn nativeInstCatFn;
+
 	/**
- 	* Loads the clojure namespaces over-riding 
-	* the base classes 
+ 	* Loads the clojure namespaces over-riding
+	* the base classes
  	*/
 	static {
 		IFn requireFn = Clojure.var(CORE, Require);
 
 		requireFn.invoke(Clojure.read(NATIVE_CATALOG));
-		instcatFn = Clojure.var(NATIVE_CATALOG, NativeCreate);
+		nativeInstCatFn = Clojure.var(NATIVE_CATALOG, NativeCreate);
 
 		requireFn.invoke(Clojure.read(NATIVE_BIND));
 		releaseFn = Clojure.var(NATIVE_BIND, ReleaseInst);
@@ -57,18 +60,18 @@ public class NativeBindUtils
 	 * @param  fqClassName   a string naming the fully qualified user class to use in object instance creation
 	 * @param  ctrArgs       an IPersistentMap containing arguments to use in the user class constructor
 	 * @param  libName   	a string naming the library to be loaded
-	 * @param  initArgs       an IPersistentMap containing arguments to use when initializing the native library 
+	 * @param  initArgs       an IPersistentMap containing arguments to use when initializing the native library
 	 * @return                returns the updated catalog which includes the added task
 	 */
-	
-	public static Catalog addFn(Catalog catalog, String taskName, 
+
+	public static Catalog addFn(Catalog catalog, String taskName,
 				    int batchSize, int batchTimeout,
 				    String fqClassName, IPersistentMap ctrArgs,
-				    String libName, IPersistentMap initArgs) 
+				    String libName, IPersistentMap initArgs)
 	{
-		IPersistentMap methodCat = 
-			  (IPersistentMap) instcatFn.invoke(taskName, 
-					                    batchSize, batchTimeout, 
+		IPersistentMap methodCat =
+			  (IPersistentMap) nativeInstCatFn.invoke(taskName,
+					                    batchSize, batchTimeout,
 					                    fqClassName, ctrArgs,
 							    libName, initArgs);
 
