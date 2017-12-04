@@ -6,7 +6,7 @@
                  ; TODO: Migrate this when onyx-java is added to
                  ;       Onyx Platform CI
                  ;
-                 [onyx-java "0.1.0-SNAPSHOT"] ]
+                 [org.onyxplatform/onyx-java "0.1.0"] ]
   :source-paths ["src/clj" "test"]
   :java-source-paths ["src/java" "test/java"]
   :javac-options ["-target" "1.8" "-source" "1.8" "-Xlint:unchecked"]
